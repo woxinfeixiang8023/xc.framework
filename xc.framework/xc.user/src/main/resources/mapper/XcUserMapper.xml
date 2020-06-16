@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcUserMapper">
+
+    <select id="getXcUserById" resultType="com.zb.pojo.XcUser">
+        select
+                id as id,
+                username as username,
+                password as password,
+                name as name,
+                userpic as userpic,
+                utype as utype,
+                birthday as birthday,
+                sex as sex,
+                email as email,
+                phone as phone,
+                qq as qq,
+                status as status,
+                create_time as createTime,
+                update_time as updateTime
+        from xc_user
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcUserListByMap" resultType="com.zb.pojo.XcUser" parameterType="java.util.Map">
+        select
+                id as id,
+                username as username,
+                password as password,
+                name as name,
+                userpic as userpic,
+                utype as utype,
+                birthday as birthday,
+                sex as sex,
+                email as email,
+                phone as phone,
+                qq as qq,
+                status as status,
+                create_time as createTime,
+                update_time as updateTime
+        from xc_user
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="username != null and username!=''">
+                    and username=#{username}
+                </if>
+                <if test="password != null and password!=''">
+                    and password=MD5(#{password})
+                </if>
+                <if test="name != null and name!=''">
+                    and name=#{name}
+                </if>
+                <if test="userpic != null and userpic!=''">
+                    and userpic=#{userpic}
+                </if>
+                <if test="utype != null and utype!=''">
+                    and utype=#{utype}
+                </if>
+                <if test="birthday != null and birthday!=''">
+                    and birthday=#{birthday}
+                </if>
+                <if test="sex != null and sex!=''">
+                    and sex=#{sex}
+                </if>
+                <if test="email != null and email!=''">
+                    and email=#{email}
+                </if>
+                <if test="phone != null and phone!=''">
+                    and phone=#{phone}
+                </if>
+                <if test="qq != null and qq!=''">
+                    and qq=#{qq}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="updateTime != null and updateTime!=''">
+                    and update_time=#{updateTime}
+                </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcUserCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from xc_user
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="username != null and username!=''">
+                    and username=#{username}
+                </if>
+                <if test="password != null and password!=''">
+                    and password=#{password}
+                </if>
+                <if test="name != null and name!=''">
+                    and name=#{name}
+                </if>
+                <if test="userpic != null and userpic!=''">
+                    and userpic=#{userpic}
+                </if>
+                <if test="utype != null and utype!=''">
+                    and utype=#{utype}
+                </if>
+                <if test="birthday != null and birthday!=''">
+                    and birthday=#{birthday}
+                </if>
+                <if test="sex != null and sex!=''">
+                    and sex=#{sex}
+                </if>
+                <if test="email != null and email!=''">
+                    and email=#{email}
+                </if>
+                <if test="phone != null and phone!=''">
+                    and phone=#{phone}
+                </if>
+                <if test="qq != null and qq!=''">
+                    and qq=#{qq}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="updateTime != null and updateTime!=''">
+                    and update_time=#{updateTime}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcUser" parameterType="com.zb.pojo.XcUser">
+        insert into xc_user
+        values(
+                     #{id},
+                     #{username},
+                     MD5(#{password}),
+                     null ,
+                     null ,
+                     '101001',
+                     null ,
+                     null ,
+                     null ,
+                     #{phone},
+                     null ,
+                     '1',
+                     now(),
+                     null )
+    </insert>
+
+    <update id="updateXcUser" parameterType="com.zb.pojo.XcUser">
+        update xc_user
+        <trim prefix="set" suffixOverrides="," suffix="where username=#{username}">
+                        <if test="password != null and password!=''">
+                            password=MD5(#{password}),
+                        </if>
+                        <if test="name != null and name!=''">
+                            name=#{name},
+                        </if>
+                        <if test="userpic != null and userpic!=''">
+                            userpic=#{userpic},
+                        </if>
+                        <if test="utype != null and utype!=''">
+                            utype=#{utype},
+                        </if>
+                        <if test="birthday != null and birthday!=''">
+                            birthday=#{birthday},
+                        </if>
+                        <if test="sex != null and sex!=''">
+                            sex=#{sex},
+                        </if>
+                        <if test="email != null and email!=''">
+                            email=#{email},
+                        </if>
+                        <if test="phone != null and phone!=''">
+                            phone=#{phone},
+                        </if>
+                        <if test="qq != null and qq!=''">
+                            qq=#{qq},
+                        </if>
+                        <if test="status != null and status!=''">
+                            status=#{status},
+                        </if>
+                        <if test="createTime != null and createTime!=''">
+                            create_time=#{createTime},
+                        </if>
+                        <if test="updateTime != null and updateTime!=''">
+                            update_time=#{updateTime}
+                        </if>
+        </trim>
+    </update>
+
+    <delete id="deleteXcUserById">
+        DELETE FROM `xc_user` WHERE id=#{id}
+    </delete>
+</mapper>

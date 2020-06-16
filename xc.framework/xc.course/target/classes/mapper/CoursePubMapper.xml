@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.CoursePubMapper">
+
+    <select id="getCoursePubById" resultType="com.zb.pojo.CoursePub">
+        select
+        id as id,
+        name as name,
+        mt as mt,
+        st as st,
+        grade as grade,
+        studymodel as studymodel,
+        description as description,
+        charge as charge,
+        valid as valid,
+        price as price,
+        priceOld as priceOld,
+        expires as expires,
+        expirationTime as expirationTime,
+        pic as pic,
+        teachplanId as teachplanId,
+        isHot as isHot,
+        isNew as isNew,
+        isRec as isRec,
+        isTop as isTop,
+        users as users,
+        stuUsers as stuUsers,
+        store as store,
+        isDiscount as isDiscount,
+        teacherId as teacherId
+        from xc_course.course_pub
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getCoursePubListByMap" resultType="com.zb.pojo.CoursePub" parameterType="java.util.Map">
+        select
+        id as id,
+        name as name,
+        mt as mt,
+        st as st,
+        grade as grade,
+        studymodel as studymodel,
+        description as description,
+        charge as charge,
+        valid as valid,
+        price as price,
+        priceOld as priceOld,
+        expires as expires,
+        expirationTime as expirationTime,
+        pic as pic,
+        teachplanId as teachplanId,
+        isHot as isHot,
+        isNew as isNew,
+        isRec as isRec,
+        isTop as isTop,
+        users as users,
+        stuUsers as stuUsers,
+        store as store,
+        isDiscount as isDiscount,
+        teacherId as teacherId
+        from xc_course.course_pub
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name!=''">
+                and name=#{name}
+            </if>
+            <if test="mt != null and mt!=''">
+                and mt=#{mt}
+            </if>
+            <if test="st != null and st!=''">
+                and st=#{st}
+            </if>
+            <if test="grade != null and grade!=''">
+                and grade=#{grade}
+            </if>
+            <if test="studymodel != null and studymodel!=''">
+                and studymodel=#{studymodel}
+            </if>
+            <if test="description != null and description!=''">
+                and description=#{description}
+            </if>
+            <if test="charge != null and charge!=''">
+                and charge=#{charge}
+            </if>
+            <if test="valid != null and valid!=''">
+                and valid=#{valid}
+            </if>
+            <if test="price != null and price!=''">
+                and price=#{price}
+            </if>
+            <if test="priceOld != null and priceOld!=''">
+                and priceOld=#{priceOld}
+            </if>
+            <if test="expires != null and expires!=''">
+                and expires=#{expires}
+            </if>
+            <if test="expirationTime != null and expirationTime!=''">
+                and expirationTime=#{expirationTime}
+            </if>
+            <if test="pic != null and pic!=''">
+                and pic=#{pic}
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+            <if test="isHot != null and isHot!=''">
+                and isHot=#{isHot}
+            </if>
+            <if test="isNew != null and isNew!=''">
+                and isNew=#{isNew}
+            </if>
+            <if test="isRec != null and isRec!=''">
+                and isRec=#{isRec}
+            </if>
+            <if test="isTop != null and isTop!=''">
+                and isTop=#{isTop}
+            </if>
+            <if test="users != null and users!=''">
+                and users=#{users}
+            </if>
+            <if test="stuUsers != null and stuUsers!=''">
+                and stuUsers=#{stuUsers}
+            </if>
+            <if test="store != null and store!=''">
+                and store=#{store}
+            </if>
+            <if test="isDiscount != null and isDiscount!=''">
+                and isDiscount=#{isDiscount}
+            </if>
+            <if test="teacherId != null and teacherId!=''">
+                and teacherId=#{teacherId}
+            </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getCoursePubCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_course.course_pub
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name!=''">
+                and name=#{name}
+            </if>
+            <if test="mt != null and mt!=''">
+                and mt=#{mt}
+            </if>
+            <if test="st != null and st!=''">
+                and st=#{st}
+            </if>
+            <if test="grade != null and grade!=''">
+                and grade=#{grade}
+            </if>
+            <if test="studymodel != null and studymodel!=''">
+                and studymodel=#{studymodel}
+            </if>
+            <if test="description != null and description!=''">
+                and description=#{description}
+            </if>
+            <if test="charge != null and charge!=''">
+                and charge=#{charge}
+            </if>
+            <if test="valid != null and valid!=''">
+                and valid=#{valid}
+            </if>
+            <if test="price != null and price!=''">
+                and price=#{price}
+            </if>
+            <if test="priceOld != null and priceOld!=''">
+                and priceOld=#{priceOld}
+            </if>
+            <if test="expires != null and expires!=''">
+                and expires=#{expires}
+            </if>
+            <if test="expirationTime != null and expirationTime!=''">
+                and expirationTime=#{expirationTime}
+            </if>
+            <if test="pic != null and pic!=''">
+                and pic=#{pic}
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+            <if test="isHot != null and isHot!=''">
+                and isHot=#{isHot}
+            </if>
+            <if test="isNew != null and isNew!=''">
+                and isNew=#{isNew}
+            </if>
+            <if test="isRec != null and isRec!=''">
+                and isRec=#{isRec}
+            </if>
+            <if test="isTop != null and isTop!=''">
+                and isTop=#{isTop}
+            </if>
+            <if test="users != null and users!=''">
+                and users=#{users}
+            </if>
+            <if test="stuUsers != null and stuUsers!=''">
+                and stuUsers=#{stuUsers}
+            </if>
+            <if test="store != null and store!=''">
+                and store=#{store}
+            </if>
+            <if test="isDiscount != null and isDiscount!=''">
+                and isDiscount=#{isDiscount}
+            </if>
+            <if test="teacherId != null and teacherId!=''">
+                and teacherId=#{teacherId}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertCoursePub" parameterType="com.zb.pojo.CoursePub">
+        insert into xc_course.course_pub(id,
+                                         name,
+                                         mt,
+                                         st,
+                                         grade,
+                                         studymodel,
+                                         description,
+                                         charge,
+                                         valid,
+                                         price,
+                                         priceOld,
+                                         expires,
+                                         expirationTime,
+                                         pic,
+                                         teachplanId,
+                                         isHot,
+                                         isNew,
+                                         isRec,
+                                         isTop,
+                                         users,
+                                         stuUsers,
+                                         store,
+                                         isDiscount,
+                                         teacherId)
+        values (#{id},
+                #{name},
+                #{mt},
+                #{st},
+                #{grade},
+                #{studymodel},
+                #{description},
+                #{charge},
+                #{valid},
+                #{price},
+                #{priceOld},
+                #{expires},
+                #{expirationTime},
+                #{pic},
+                #{teachplanId},
+                #{isHot},
+                #{isNew},
+                #{isRec},
+                #{isTop},
+                #{users},
+                #{stuUsers},
+                #{store},
+                #{isDiscount},
+                #{teacherId})
+    </insert>
+
+    <update id="updateCoursePub" parameterType="com.zb.pojo.CoursePub">
+        update xc_course.course_pub
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="name != null and name!=''">
+                name=#{name},
+            </if>
+            <if test="mt != null and mt!=''">
+                mt=#{mt},
+            </if>
+            <if test="st != null and st!=''">
+                st=#{st},
+            </if>
+            <if test="grade != null and grade!=''">
+                grade=#{grade},
+            </if>
+            <if test="studymodel != null and studymodel!=''">
+                studymodel=#{studymodel},
+            </if>
+            <if test="description != null and description!=''">
+                description=#{description},
+            </if>
+            <if test="charge != null and charge!=''">
+                charge=#{charge},
+            </if>
+            <if test="valid != null and valid!=''">
+                valid=#{valid},
+            </if>
+            <if test="price != null and price!=''">
+                price=#{price},
+            </if>
+            <if test="priceOld != null and priceOld!=''">
+                priceOld=#{priceOld},
+            </if>
+            <if test="expires != null and expires!=''">
+                expires=#{expires},
+            </if>
+            <if test="expirationTime != null and expirationTime!=''">
+                expirationTime=#{expirationTime},
+            </if>
+            <if test="pic != null and pic!=''">
+                pic=#{pic},
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                teachplanId=#{teachplanId},
+            </if>
+            <if test="isHot != null and isHot!=''">
+                isHot=#{isHot},
+            </if>
+            <if test="isNew != null and isNew!=''">
+                isNew=#{isNew},
+            </if>
+            <if test="isRec != null and isRec!=''">
+                isRec=#{isRec},
+            </if>
+            <if test="isTop != null and isTop!=''">
+                isTop=#{isTop},
+            </if>
+            <if test="users != null and users!=''">
+                users=#{users},
+            </if>
+            <if test="stuUsers != null and stuUsers!=''">
+                stuUsers=#{stuUsers},
+            </if>
+            <if test="store != null and store!=''">
+                store=#{store},
+            </if>
+            <if test="isDiscount != null and isDiscount!=''">
+                isDiscount=#{isDiscount},
+            </if>
+            <if test="teacherId != null and teacherId!=''">
+                teacherId=#{teacherId}
+            </if>
+        </trim>
+    </update>
+    <select id="importData" resultType="com.zb.pojo.CoursePub">
+        SELECT *
+        FROM `xc_course`.`course_pub`
+    </select>
+</mapper>

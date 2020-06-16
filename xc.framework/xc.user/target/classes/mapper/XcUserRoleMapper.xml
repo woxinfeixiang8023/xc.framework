@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcUserRoleMapper">
+
+    <select id="getXcUserRoleById" resultType="com.zb.pojo.XcUserRole">
+        select
+                id as id,
+                user_id as userId,
+                role_id as roleId,
+                create_time as createTime,
+                creator as creator
+        from xc_user_role
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcUserRoleListByMap" resultType="com.zb.pojo.XcUserRole" parameterType="java.util.Map">
+        select
+                id as id,
+                user_id as userId,
+                role_id as roleId,
+                create_time as createTime,
+                creator as creator
+        from xc_user_role
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="userId != null and userId!=''">
+                    and user_id=#{userId}
+                </if>
+                <if test="roleId != null and roleId!=''">
+                    and role_id=#{roleId}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="creator != null and creator!=''">
+                    and creator=#{creator}
+                </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcUserRoleCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from xc_user_role
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="userId != null and userId!=''">
+                    and user_id=#{userId}
+                </if>
+                <if test="roleId != null and roleId!=''">
+                    and role_id=#{roleId}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="creator != null and creator!=''">
+                    and creator=#{creator}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcUserRole" parameterType="com.zb.pojo.XcUserRole">
+        insert into xc_user_role(
+                        user_id,
+                        role_id,
+                        create_time,
+                        creator)
+        values(
+                     #{userId},
+                     #{roleId},
+                     #{createTime},
+                    #{creator})
+    </insert>
+
+    <update id="updateXcUserRole" parameterType="com.zb.pojo.XcUserRole">
+        update xc_user_role
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                        <if test="userId != null and userId!=''">
+                            user_id=#{userId},
+                        </if>
+                        <if test="roleId != null and roleId!=''">
+                            role_id=#{roleId},
+                        </if>
+                        <if test="createTime != null and createTime!=''">
+                            create_time=#{createTime},
+                        </if>
+                        <if test="creator != null and creator!=''">
+                            creator=#{creator}
+                        </if>
+        </trim>
+    </update>
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcPermissionMapper">
+
+    <select id="getXcPermissionById" resultType="com.zb.pojo.XcPermission">
+        select
+                id as id,
+                role_id as roleId,
+                menu_id as menuId,
+                operation time as operation time
+        from xc_permission
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcPermissionListByMap" resultType="com.zb.pojo.XcPermission" parameterType="java.util.Map">
+        select
+                id as id,
+                role_id as roleId,
+                menu_id as menuId,
+                operation time as operation time
+        from xc_permission
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="roleId != null and roleId!=''">
+                    and role_id=#{roleId}
+                </if>
+                <if test="menuId != null and menuId!=''">
+                    and menu_id=#{menuId}
+                </if>
+                <if test="operation time != null and operation time!=''">
+                    and operation time=#{operation time}
+                </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcPermissionCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from xc_permission
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="roleId != null and roleId!=''">
+                    and role_id=#{roleId}
+                </if>
+                <if test="menuId != null and menuId!=''">
+                    and menu_id=#{menuId}
+                </if>
+                <if test="operation time != null and operation time!=''">
+                    and operation time=#{operation time}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcPermission" parameterType="com.zb.pojo.XcPermission">
+        insert into xc_permission(
+                        role_id,
+                        menu_id,
+                        operation time)
+        values(
+                     #{roleId},
+                     #{menuId},
+                    #{operation time})
+    </insert>
+
+    <update id="updateXcPermission" parameterType="com.zb.pojo.XcPermission">
+        update xc_permission
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                        <if test="roleId != null and roleId!=''">
+                            role_id=#{roleId},
+                        </if>
+                        <if test="menuId != null and menuId!=''">
+                            menu_id=#{menuId},
+                        </if>
+                        <if test="operation time != null and operation time!=''">
+                            operation time=#{operation time}
+                        </if>
+        </trim>
+    </update>
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcCommentMapper">
+
+    <select id="getXcCommentById" resultType="com.zb.pojo.XcComment">
+        select
+        id as id,
+        courseId as courseId,
+        commentContext as commentContext,
+        score as score,
+        userId as userId,
+        createDate as createDate
+        from xc_course.xc_comment
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcCommentListByMap" resultType="com.zb.pojo.XcComment" parameterType="java.util.Map">
+        select
+        id as id,
+        courseId as courseId,
+        commentContext as commentContext,
+        score as score,
+        userId as userId,
+        createDate as createDate
+        from xc_course.xc_comment
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="courseId != null and courseId!=''">
+                and courseId=#{courseId}
+            </if>
+            <if test="commentContext != null and commentContext!=''">
+                and commentContext=#{commentContext}
+            </if>
+            <if test="score != null and score!=''">
+                and score=#{score}
+            </if>
+            <if test="userId != null and userId!=''">
+                and userId=#{userId}
+            </if>
+            <if test="createDate != null and createDate!=''">
+                and createDate=#{createDate}
+            </if>
+        </trim>
+        <if test="start != null and size != null ">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getXcCommentCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_course.xc_comment
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="courseId != null and courseId!=''">
+                and courseId=#{courseId}
+            </if>
+            <if test="commentContext != null and commentContext!=''">
+                and commentContext=#{commentContext}
+            </if>
+            <if test="score != null and score!=''">
+                and score=#{score}
+            </if>
+            <if test="userId != null and userId!=''">
+                and userId=#{userId}
+            </if>
+            <if test="createDate != null and createDate!=''">
+                and createDate=#{createDate}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcComment" parameterType="com.zb.pojo.XcComment">
+        insert into xc_course.xc_comment(id,
+                                         courseId,
+                                         commentContext,
+                                         score,
+                                         userId,
+                                         createDate)
+        values (#{id},
+                #{courseId},
+                #{commentContext},
+                #{score},
+                #{userId},
+                #{createDate})
+    </insert>
+
+    <update id="updateXcComment" parameterType="com.zb.pojo.XcComment">
+        update xc_course.xc_comment
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="courseId != null and courseId!=''">
+                courseId=#{courseId},
+            </if>
+            <if test="commentContext != null and commentContext!=''">
+                commentContext=#{commentContext},
+            </if>
+            <if test="score != null and score!=''">
+                score=#{score},
+            </if>
+            <if test="userId != null and userId!=''">
+                userId=#{userId},
+            </if>
+            <if test="createDate != null and createDate!=''">
+                createDate=now()
+            </if>
+        </trim>
+    </update>
+    <select id="getXcCommentScore" resultType="com.zb.pojo.XcComment">
+        SELECT CONVERT(AVG(score), DECIMAL(10, 1)) AS avgScore, SUM(score) AS sumScore
+        FROM `xc_course`.`xc_comment`
+    </select>
+</mapper>

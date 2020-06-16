@@ -1,0 +1,14 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: gateway-server
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:ok@localhost:7001/eureka/
+zuul:
+  routes:
+    myuserserver:
+      path: /course/**
+      serviceId: courseserver

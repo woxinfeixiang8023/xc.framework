@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.TeachplanMediaMapper">
+
+    <select id="getTeachplanMediaByTeachplanId" resultType="com.zb.pojo.TeachplanMedia">
+        select
+        teachplanId as teachplanId,
+        mediaId as mediaId,
+        mediaFileoriginalname as mediaFileoriginalname,
+        mediaUrl as mediaUrl,
+        courseid as courseid
+        from xc_course.teachplan_media
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="teachplanId != null">
+                and teachplanId=#{teachplanId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getTeachplanMediaListByMap" resultType="com.zb.pojo.TeachplanMedia" parameterType="java.util.Map">
+        select
+        teachplanId as teachplanId,
+        mediaId as mediaId,
+        mediaFileoriginalname as mediaFileoriginalname,
+        mediaUrl as mediaUrl,
+        courseid as courseid
+        from xc_course.teachplan_media
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+            <if test="mediaId != null and mediaId!=''">
+                and mediaId=#{mediaId}
+            </if>
+            <if test="mediaFileoriginalname != null and mediaFileoriginalname!=''">
+                and mediaFileoriginalname=#{mediaFileoriginalname}
+            </if>
+            <if test="mediaUrl != null and mediaUrl!=''">
+                and mediaUrl=#{mediaUrl}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and courseid=#{courseid}
+            </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getTeachplanMediaCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_course.teachplan_media
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+            <if test="mediaId != null and mediaId!=''">
+                and mediaId=#{mediaId}
+            </if>
+            <if test="mediaFileoriginalname != null and mediaFileoriginalname!=''">
+                and mediaFileoriginalname=#{mediaFileoriginalname}
+            </if>
+            <if test="mediaUrl != null and mediaUrl!=''">
+                and mediaUrl=#{mediaUrl}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and courseid=#{courseid}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertTeachplanMedia" parameterType="com.zb.pojo.TeachplanMedia">
+        insert into xc_course.teachplan_media(teachplanId,
+                                              mediaId,
+                                              mediaFileoriginalname,
+                                              mediaUrl,
+                                              courseid)
+        values (#{teachplanId},
+                #{mediaId},
+                #{mediaFileoriginalname},
+                #{mediaUrl},
+                #{courseid})
+    </insert>
+
+    <update id="updateTeachplanMedia" parameterType="com.zb.pojo.TeachplanMedia">
+        update xc_course.teachplan_media
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="teachplanId != null and teachplanId!=''">
+                teachplanId=#{teachplanId},
+            </if>
+            <if test="mediaId != null and mediaId!=''">
+                mediaId=#{mediaId},
+            </if>
+            <if test="mediaFileoriginalname != null and mediaFileoriginalname!=''">
+                mediaFileoriginalname=#{mediaFileoriginalname},
+            </if>
+            <if test="mediaUrl != null and mediaUrl!=''">
+                mediaUrl=#{mediaUrl},
+            </if>
+            <if test="courseid != null and courseid!=''">
+                courseid=#{courseid}
+            </if>
+        </trim>
+    </update>
+</mapper>

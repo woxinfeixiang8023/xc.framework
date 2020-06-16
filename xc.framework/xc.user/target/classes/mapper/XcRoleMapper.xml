@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcRoleMapper">
+
+    <select id="getXcRoleById" resultType="com.zb.pojo.XcRole">
+        select
+                id as id,
+                role_name as roleName,
+                role_code as roleCode,
+                create_time as createTime,
+                update_time as updateTime,
+                status as status
+        from xc_role
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcRoleListByMap" resultType="com.zb.pojo.XcRole" parameterType="java.util.Map">
+        select
+                id as id,
+                role_name as roleName,
+                role_code as roleCode,
+                create_time as createTime,
+                update_time as updateTime,
+                status as status
+        from xc_role
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="roleName != null and roleName!=''">
+                    and role_name=#{roleName}
+                </if>
+                <if test="roleCode != null and roleCode!=''">
+                    and role_code=#{roleCode}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="updateTime != null and updateTime!=''">
+                    and update_time=#{updateTime}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcRoleCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from xc_role
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="roleName != null and roleName!=''">
+                    and role_name=#{roleName}
+                </if>
+                <if test="roleCode != null and roleCode!=''">
+                    and role_code=#{roleCode}
+                </if>
+                <if test="createTime != null and createTime!=''">
+                    and create_time=#{createTime}
+                </if>
+                <if test="updateTime != null and updateTime!=''">
+                    and update_time=#{updateTime}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcRole" parameterType="com.zb.pojo.XcRole">
+        insert into xc_role(
+                        role_name,
+                        role_code,
+                        create_time,
+                        update_time,
+                        status)
+        values(
+                     #{roleName},
+                     #{roleCode},
+                     #{createTime},
+                     #{updateTime},
+                    #{status})
+    </insert>
+
+    <update id="updateXcRole" parameterType="com.zb.pojo.XcRole">
+        update xc_role
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                        <if test="roleName != null and roleName!=''">
+                            role_name=#{roleName},
+                        </if>
+                        <if test="roleCode != null and roleCode!=''">
+                            role_code=#{roleCode},
+                        </if>
+                        <if test="createTime != null and createTime!=''">
+                            create_time=#{createTime},
+                        </if>
+                        <if test="updateTime != null and updateTime!=''">
+                            update_time=#{updateTime},
+                        </if>
+                        <if test="status != null and status!=''">
+                            status=#{status}
+                        </if>
+        </trim>
+    </update>
+</mapper>

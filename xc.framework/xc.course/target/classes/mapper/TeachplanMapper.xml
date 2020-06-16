@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.TeachplanMapper">
+
+    <select id="getTeachplanByCourseId" resultType="com.zb.pojo.Teachplan">
+        select
+        id as id,
+        pname as pname,
+        parentid as parentid,
+        grade as grade,
+        ptype as ptype,
+        description as description,
+        timelength as timelength,
+        courseid as courseid,
+        orderby as orderby,
+        status as status,
+        trylearn as trylearn,
+        teachplanId as teachplanId
+        from xc_course.teachplan
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="courseid != null">
+                and courseid=#{courseId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getTeachplanListByMap" resultType="com.zb.pojo.Teachplan" parameterType="java.util.Map">
+        select
+        id as id,
+        pname as pname,
+        parentid as parentid,
+        grade as grade,
+        ptype as ptype,
+        description as description,
+        timelength as timelength,
+        courseid as courseid,
+        orderby as orderby,
+        status as status,
+        trylearn as trylearn,
+        teachplanId as teachplanId
+        from xc_course.teachplan
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="pname != null and pname!=''">
+                and pname=#{pname}
+            </if>
+            <if test="parentid != null and parentid!=''">
+                and parentid=#{parentid}
+            </if>
+            <if test="grade != null and grade!=''">
+                and grade=#{grade}
+            </if>
+            <if test="ptype != null and ptype!=''">
+                and ptype=#{ptype}
+            </if>
+            <if test="description != null and description!=''">
+                and description=#{description}
+            </if>
+            <if test="timelength != null and timelength!=''">
+                and timelength=#{timelength}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and courseid=#{courseid}
+            </if>
+            <if test="orderby != null and orderby!=''">
+                and orderby=#{orderby}
+            </if>
+            <if test="status != null and status!=''">
+                and status=#{status}
+            </if>
+            <if test="trylearn != null and trylearn!=''">
+                and trylearn=#{trylearn}
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+        </trim>
+        ORDER BY orderby ASC
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getTeachplanCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_course.teachplan
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="pname != null and pname!=''">
+                and pname=#{pname}
+            </if>
+            <if test="parentid != null and parentid!=''">
+                and parentid=#{parentid}
+            </if>
+            <if test="grade != null and grade!=''">
+                and grade=#{grade}
+            </if>
+            <if test="ptype != null and ptype!=''">
+                and ptype=#{ptype}
+            </if>
+            <if test="description != null and description!=''">
+                and description=#{description}
+            </if>
+            <if test="timelength != null and timelength!=''">
+                and timelength=#{timelength}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and courseid=#{courseid}
+            </if>
+            <if test="orderby != null and orderby!=''">
+                and orderby=#{orderby}
+            </if>
+            <if test="status != null and status!=''">
+                and status=#{status}
+            </if>
+            <if test="trylearn != null and trylearn!=''">
+                and trylearn=#{trylearn}
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                and teachplanId=#{teachplanId}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertTeachplan" parameterType="com.zb.pojo.Teachplan">
+        insert into xc_course.teachplan(id,
+                                        pname,
+                                        parentid,
+                                        grade,
+                                        ptype,
+                                        description,
+                                        timelength,
+                                        courseid,
+                                        orderby,
+                                        status,
+                                        trylearn,
+                                        teachplanId)
+        values (#{id},
+                #{pname},
+                #{parentid},
+                #{grade},
+                #{ptype},
+                #{description},
+                #{timelength},
+                #{courseid},
+                #{orderby},
+                #{status},
+                #{trylearn},
+                #{teachplanId})
+    </insert>
+
+    <update id="updateTeachplan" parameterType="com.zb.pojo.Teachplan">
+        update xc_course.teachplan
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="pname != null and pname!=''">
+                pname=#{pname},
+            </if>
+            <if test="parentid != null and parentid!=''">
+                parentid=#{parentid},
+            </if>
+            <if test="grade != null and grade!=''">
+                grade=#{grade},
+            </if>
+            <if test="ptype != null and ptype!=''">
+                ptype=#{ptype},
+            </if>
+            <if test="description != null and description!=''">
+                description=#{description},
+            </if>
+            <if test="timelength != null and timelength!=''">
+                timelength=#{timelength},
+            </if>
+            <if test="courseid != null and courseid!=''">
+                courseid=#{courseid},
+            </if>
+            <if test="orderby != null and orderby!=''">
+                orderby=#{orderby},
+            </if>
+            <if test="status != null and status!=''">
+                status=#{status},
+            </if>
+            <if test="trylearn != null and trylearn!=''">
+                trylearn=#{trylearn},
+            </if>
+            <if test="teachplanId != null and teachplanId!=''">
+                teachplanId=#{teachplanId}
+            </if>
+        </trim>
+    </update>
+</mapper>

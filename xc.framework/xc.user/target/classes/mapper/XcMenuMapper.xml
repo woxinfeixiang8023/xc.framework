@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcMenuMapper">
+
+    <select id="getXcMenuById" resultType="com.zb.pojo.XcMenu">
+        select
+                id as id,
+                code as code,
+                p_id as pId,
+                menu_name as menuName,
+                is_menu as isMenu,
+                level as level,
+                sort as sort,
+                status as status,
+                icon as icon
+        from xc_menu
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcMenuListByMap" resultType="com.zb.pojo.XcMenu" parameterType="java.util.Map">
+        select
+                id as id,
+                code as code,
+                p_id as pId,
+                menu_name as menuName,
+                is_menu as isMenu,
+                level as level,
+                sort as sort,
+                status as status,
+                icon as icon
+        from xc_menu
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="code != null and code!=''">
+                    and code=#{code}
+                </if>
+                <if test="pId != null and pId!=''">
+                    and p_id=#{pId}
+                </if>
+                <if test="menuName != null and menuName!=''">
+                    and menu_name=#{menuName}
+                </if>
+                <if test="isMenu != null and isMenu!=''">
+                    and is_menu=#{isMenu}
+                </if>
+                <if test="level != null and level!=''">
+                    and level=#{level}
+                </if>
+                <if test="sort != null and sort!=''">
+                    and sort=#{sort}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+                <if test="icon != null and icon!=''">
+                    and icon=#{icon}
+                </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcMenuCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from xc_menu
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="code != null and code!=''">
+                    and code=#{code}
+                </if>
+                <if test="pId != null and pId!=''">
+                    and p_id=#{pId}
+                </if>
+                <if test="menuName != null and menuName!=''">
+                    and menu_name=#{menuName}
+                </if>
+                <if test="isMenu != null and isMenu!=''">
+                    and is_menu=#{isMenu}
+                </if>
+                <if test="level != null and level!=''">
+                    and level=#{level}
+                </if>
+                <if test="sort != null and sort!=''">
+                    and sort=#{sort}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+                <if test="icon != null and icon!=''">
+                    and icon=#{icon}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcMenu" parameterType="com.zb.pojo.XcMenu">
+        insert into xc_menu(
+                        code,
+                        p_id,
+                        menu_name,
+                        is_menu,
+                        level,
+                        sort,
+                        status,
+                        icon)
+        values(
+                     #{code},
+                     #{pId},
+                     #{menuName},
+                     #{isMenu},
+                     #{level},
+                     #{sort},
+                     #{status},
+                    #{icon})
+    </insert>
+
+    <update id="updateXcMenu" parameterType="com.zb.pojo.XcMenu">
+        update xc_menu
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                        <if test="code != null and code!=''">
+                            code=#{code},
+                        </if>
+                        <if test="pId != null and pId!=''">
+                            p_id=#{pId},
+                        </if>
+                        <if test="menuName != null and menuName!=''">
+                            menu_name=#{menuName},
+                        </if>
+                        <if test="isMenu != null and isMenu!=''">
+                            is_menu=#{isMenu},
+                        </if>
+                        <if test="level != null and level!=''">
+                            level=#{level},
+                        </if>
+                        <if test="sort != null and sort!=''">
+                            sort=#{sort},
+                        </if>
+                        <if test="status != null and status!=''">
+                            status=#{status},
+                        </if>
+                        <if test="icon != null and icon!=''">
+                            icon=#{icon}
+                        </if>
+        </trim>
+    </update>
+</mapper>
