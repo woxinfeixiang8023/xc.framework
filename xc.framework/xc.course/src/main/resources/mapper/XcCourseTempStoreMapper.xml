@@ -130,5 +130,10 @@
           and createdBy = #{userId}
           and courseId = #{courseId}
     </select>
-
+    <select id="courseStoreCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM xc_course.xc_course_temp_store
+        WHERE courseId = #{courseId}
+          AND recorddate > NOW()
+    </select>
 </mapper>

@@ -9,6 +9,9 @@ eureka:
       defaultZone: http://root:ok@localhost:7001/eureka/
 zuul:
   routes:
-    myuserserver:
+    mycourseserver:
       path: /course/**
       serviceId: courseserver
+    myuserserver:
+      path: /user/**
+      serviceId: userserver

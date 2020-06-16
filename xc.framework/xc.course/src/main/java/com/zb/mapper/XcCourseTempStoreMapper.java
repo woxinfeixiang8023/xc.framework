@@ -20,6 +20,8 @@ public interface XcCourseTempStoreMapper {
 
     public Integer updateXcCourseTempStore(Map<String, Object> param) throws Exception;
 
+    public int courseStoreCount(Map<String, Object> param);
+
     /**
      * 查询临时库存表的用户是否是第二次下单
      * 查询临时库存的课程状态

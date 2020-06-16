@@ -219,7 +219,7 @@ public class CoursePubServiceImpl implements CoursePubService {
                 //根据商品编号查询已预定的count
                 Map<String, Object> storeMap = new HashMap<>();
                 storeMap.put("courseId", coursePub.getId());
-                Integer storeCount = xcCourseTempStoreMapper.getXcCourseTempStoreCountByMap(storeMap);
+                Integer storeCount = xcCourseTempStoreMapper.courseStoreCount(storeMap);
                 //原始库存-已预定count=实际可以预定的库存
                 coursePub.setStore(coursePub.getStore() - storeCount);
                 //写入到redis中
@@ -247,7 +247,7 @@ public class CoursePubServiceImpl implements CoursePubService {
         int stock = this.checkRoomStock(courseId);
         //有库存等待
         //去redis中检查数据
-        String key = "qg:" + currentUser.getId() + courseId;
+        String key = "qg:" + currentUser.getId() + ":" + courseId;
         if (redisUtil.hasKey(key)) {
             String json = redisUtil.get(key).toString();
             Map<String, Object> param = JSON.parseObject(json, Map.class);
@@ -296,7 +296,7 @@ public class CoursePubServiceImpl implements CoursePubService {
         try {
             //循环获取锁
             //自旋
-            while (!redisUtil.hasKey(key)) {
+            while (!redisUtil.lock(key)) {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -318,7 +318,7 @@ public class CoursePubServiceImpl implements CoursePubService {
                 //如果是第二次下单将状态改为two
                 param.put("state", "two");
                 //重新存储到redis中
-                redisUtil.set(key1, JSON.toJSONString(param), 60 * 5);
+                redisUtil.set(key1, JSON.toJSONString(param), 60 * 6);
                 System.out.println("同一用户只能抢购一次");
                 return;
             }
@@ -326,11 +326,11 @@ public class CoursePubServiceImpl implements CoursePubService {
             int i = this.lockCourseStock(courseId, currentUser.getId());
             if (i > 0) {
                 //向redis中添加哪个用户的哪个抢购课程信息
-                String qgKey = "qg:" + currentUser.getId() + courseId;
+                String qgKey = "qg:" + currentUser.getId() + ":" + courseId;
                 //用来检测是否是第二次下单
                 param.put("state", "one");
                 //6分钟之后不支付， 自动清除记录
-                redisUtil.hmset(qgKey, param, 60 * 6);
+                redisUtil.set(qgKey, JSON.toJSONString(param), 60 * 6);
                 //封装发送延迟队列的数据
                 Map<String, Object> mqData = new HashMap<>();
                 mqData.put("courseId", courseId);
@@ -379,6 +379,7 @@ public class CoursePubServiceImpl implements CoursePubService {
         return 0;
     }
 
+    @RabbitListener(queues = DelayRabbitConfig.ORDER_DELAY_QUEUE)
     @Override
     public void recoverOrderMessage(Map<String, Object> param, Message message, Channel channel) {
         try {

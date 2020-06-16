@@ -73,8 +73,8 @@ public class XcUserController {
      * @param token
      * @return
      */
-    @PostMapping(value = "/getCurrentUser")
-    public XcUser getCurrentUser(String token) {
+    @PostMapping(value = "/getCurrentUser/{token}")
+    public XcUser getCurrentUser(@PathVariable("token") String token) {
         return xcUserService.getCurrentUser(token);
     }
 
