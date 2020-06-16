@@ -31,4 +31,6 @@ public interface CoursePubService {
     public void reviceQg(Map<String, Object> param, Message message, Channel channel);
 
     public int lockCourseStock(String courseId, String uid);
+
+    public void recoverOrderMessage(Map<String, Object> param, Message message, Channel channel);
 }

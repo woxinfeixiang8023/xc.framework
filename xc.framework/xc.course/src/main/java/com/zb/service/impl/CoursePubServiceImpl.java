@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.rabbitmq.client.Channel;
+import com.zb.config.DelayRabbitConfig;
 import com.zb.config.MQConfig;
 import com.zb.dto.Page;
 import com.zb.feign.XcUserFeignClient;
@@ -28,8 +29,10 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -216,7 +219,7 @@ public class CoursePubServiceImpl implements CoursePubService {
                 //根据商品编号查询已预定的count
                 Map<String, Object> storeMap = new HashMap<>();
                 storeMap.put("courseId", coursePub.getId());
-                Integer storeCount = xcCourseTempStoreMapper.getXcCourseTempStoreCountByMap(param);
+                Integer storeCount = xcCourseTempStoreMapper.getXcCourseTempStoreCountByMap(storeMap);
                 //原始库存-已预定count=实际可以预定的库存
                 coursePub.setStore(coursePub.getStore() - storeCount);
                 //写入到redis中
@@ -246,9 +249,21 @@ public class CoursePubServiceImpl implements CoursePubService {
         //去redis中检查数据
         String key = "qg:" + currentUser.getId() + courseId;
         if (redisUtil.hasKey(key)) {
-
+            String json = redisUtil.get(key).toString();
+            Map<String, Object> param = JSON.parseObject(json, Map.class);
+            if (param.get("state").equals("two")) {
+                return "two";
+            }
+            //抢购成功
+            return "success";
+        } else {
+            //没有库存
+            if (stock <= 0) {
+                return "none";
+            }
+            //有库存的情况,没有抢购成功
+            return "input";
         }
-        return null;
     }
 
     @Override
@@ -297,8 +312,8 @@ public class CoursePubServiceImpl implements CoursePubService {
             Map<String, Object> one = new HashMap<>();
             one.put("courseId", courseId);
             one.put("userId", currentUser.getId());
-            List<XcCourseTempStore> xcCourseTempStoreListByMap = xcCourseTempStoreMapper.getXcCourseTempStoreListByMap(param);
-            if (xcCourseTempStoreListByMap != null) {
+            XcCourseTempStore courseTempStoreStatus = xcCourseTempStoreMapper.findCourseTempStoreStatus(param);
+            if (courseTempStoreStatus != null) {
                 String key1 = "qg:" + currentUser.getId() + ":" + courseId;
                 //如果是第二次下单将状态改为two
                 param.put("state", "two");
@@ -307,11 +322,27 @@ public class CoursePubServiceImpl implements CoursePubService {
                 System.out.println("同一用户只能抢购一次");
                 return;
             }
-            //执行购买
+            //执行购买,添加临时记录
             int i = this.lockCourseStock(courseId, currentUser.getId());
             if (i > 0) {
                 //向redis中添加哪个用户的哪个抢购课程信息
-
+                String qgKey = "qg:" + currentUser.getId() + courseId;
+                //用来检测是否是第二次下单
+                param.put("state", "one");
+                //6分钟之后不支付， 自动清除记录
+                redisUtil.hmset(qgKey, param, 60 * 6);
+                //封装发送延迟队列的数据
+                Map<String, Object> mqData = new HashMap<>();
+                mqData.put("courseId", courseId);
+                mqData.put("userId", currentUser.getId());
+                System.out.println("延迟队列 6分钟之后检查库存订单的状态 ");
+                amqpTemplate.convertAndSend(DelayRabbitConfig.ORDER_EXCHANGE_NAME, DelayRabbitConfig.ORDER_ROUTING_KEY, mqData, new MessagePostProcessor() {
+                    @Override
+                    public Message postProcessMessage(Message message) throws AmqpException {
+                        message.getMessageProperties().setExpiration(60 * 1000 * 6 + "");
+                        return message;
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -320,6 +351,7 @@ public class CoursePubServiceImpl implements CoursePubService {
         }
 
     }
+
 
     @Override
     public int lockCourseStock(String courseId, String uid) {
@@ -345,6 +377,37 @@ public class CoursePubServiceImpl implements CoursePubService {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public void recoverOrderMessage(Map<String, Object> param, Message message, Channel channel) {
+        try {
+            System.out.println("六分钟之后获取到临时库存的状态信息");
+            String courseId = param.get("courseId").toString();
+            String userId = param.get("userId").toString();
+            param.put("status", 1);
+            System.out.println("courseId:" + courseId + "\t" + "userId:" + userId);
+            System.out.println("1.修改临时库存的状态");
+            //查询商品的状态是否为0 执行以下操作
+            XcCourseTempStore courseTempStoreStatus = xcCourseTempStoreMapper.findCourseTempStoreStatus(param);
+            if (courseTempStoreStatus.getStatus() == 0) {
+                //修改数据库的商品状态
+                Integer num = xcCourseTempStoreMapper.updateXcCourseTempStore(param);
+                if (num > 0) {
+                    System.out.println("回滚库存......");
+                    //获取redis中的库存信息
+                    String key = "discountCourse:" + courseId;
+                    String json = redisUtil.get(key).toString();
+                    CoursePub coursePub = JSON.parseObject(json, CoursePub.class);
+                    coursePub.setStore(coursePub.getStore() + 1);
+                    //重新写入到redis中
+                    redisUtil.set(key, JSON.toJSONString(coursePub));
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

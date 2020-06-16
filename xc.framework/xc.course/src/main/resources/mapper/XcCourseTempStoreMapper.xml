@@ -115,33 +115,20 @@
         values (#{id}, #{courseId}, now(), #{store}, #{status}, now(), #{createdBy}, now(), #{modifiedBy})
     </insert>
 
-    <update id="updateXcCourseTempStore" parameterType="com.zb.pojo.XcCourseTempStore">
+    <update id="updateXcCourseTempStore">
         update xc_course.xc_course_temp_store
-        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
-            <if test="courseId != null and courseId!=''">
-                courseId=#{courseId},
-            </if>
-            <if test="recordDate != null and recordDate!=''">
-                recordDate=#{recordDate},
-            </if>
-            <if test="store != null and store!=''">
-                store=#{store},
-            </if>
-            <if test="status != null and status!=''">
-                status=#{status},
-            </if>
-            <if test="creationDate != null and creationDate!=''">
-                creationDate=#{creationDate},
-            </if>
-            <if test="createdBy != null and createdBy!=''">
-                createdBy=#{createdBy},
-            </if>
-            <if test="modifyDate != null and modifyDate!=''">
-                modifyDate=#{modifyDate},
-            </if>
-            <if test="modifiedBy != null and modifiedBy!=''">
-                modifiedBy=#{modifiedBy}
-            </if>
-        </trim>
+        SET STATUS = #{status}
+        WHERE courseId = #{courseId}
+          AND createdBy = #{userId}
     </update>
+    <select id="findCourseTempStoreStatus" resultType="com.zb.pojo.XcCourseTempStore">
+        select *
+        from xc_course.xc_course_temp_store
+        <![CDATA[
+        where status <> 1
+         ]]>
+          and createdBy = #{userId}
+          and courseId = #{courseId}
+    </select>
+
 </mapper>

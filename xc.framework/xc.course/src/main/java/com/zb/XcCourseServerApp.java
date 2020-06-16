@@ -25,12 +25,16 @@ public class XcCourseServerApp {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext context = SpringApplication.run(XcCourseServerApp.class, args);
 
+        CoursePubService coursePubService = context.getBean(CoursePubService.class);
+        coursePubService.coursePubToRedis();
         /*EsTools esTools = context.getBean(EsTools.class);
         esTools.addIndex();
         esTools.importData();*/
 
         CanalTools bean = context.getBean(CanalTools.class);
         bean.execution();
+
+
 
     }
 

@@ -24,10 +24,4 @@ public interface XcUserTokenService {
      */
     public void saveToken(String token, XcUser xcUser);
 
-    /**
-     * 取出token值 XcUser对象
-     * @param token
-     * @return
-     */
-    public XcUser getCurrentUser(String token);
 }

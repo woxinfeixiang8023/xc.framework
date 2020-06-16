@@ -26,8 +26,10 @@ public class XcUserController {
     private XcUserTokenService xcUserTokenService;
     @Autowired(required = false)
     private SMSService smsService;
+
     /**
      * 管理员根据用户id查询用户个人信息 POST:http://localhost:8001/getXcUserById/id
+     *
      * @param id
      * @return
      * @throws Exception
@@ -39,17 +41,18 @@ public class XcUserController {
 
     /**
      * 用户或者管理员登录 POST:http://localhost:8001/getXcUserListByMap
-     * @username
-     * @password
+     *
      * @return
      * @throws Exception
+     * @username
+     * @password
      */
     @PostMapping(value = "/getXcUserListByMap")
     public UserTokenVo getXcUserListByMap(String username, String password, HttpServletRequest request) throws Exception {
         //调用登录方法 返回登录的对象信息
         XcUser xcUser = xcUserService.getXcUserListByMap(username, password);
         //判断返回的对象是否为空
-        if (xcUser!=null){
+        if (xcUser != null) {
             //不为空 调用创建token的方法 获取请求头和当前登录对象的Username
             String token = xcUserTokenService.createToken(request.getHeader("user-agent"), xcUser.getUsername());
             //调用存储token的方法 将token和登录对象存储
@@ -61,19 +64,23 @@ public class XcUserController {
             userTokenVo.setCurrTime(System.currentTimeMillis() * 2 * 60 * 60);
             return userTokenVo;
         }
-            return null;
+        return null;
     }
 
     /**
      * 取出token
+     *
      * @param token
      * @return
      */
-    public XcUser getCurrentUser(String token){
-        return xcUserTokenService.getCurrentUser(token);
+    @PostMapping(value = "/getCurrentUser")
+    public XcUser getCurrentUser(String token) {
+        return xcUserService.getCurrentUser(token);
     }
+
     /**
      * 用户注册或者管理员添加新的用户 POST:http://localhost:8001/insertXcUser
+     *
      * @param xcUser
      * @return
      * @throws Exception
@@ -85,6 +92,7 @@ public class XcUserController {
 
     /**
      * 用户或者管理员修改个人信息 POST:
+     *
      * @param xcUser
      * @return
      * @throws Exception
@@ -96,6 +104,7 @@ public class XcUserController {
 
     /**
      * 管理员根据用户id删除用户信息
+     *
      * @param id
      * @return
      * @throws Exception

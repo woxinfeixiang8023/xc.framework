@@ -93,5 +93,28 @@ public class CoursePubController {
         return DtoUtil.returnSuccess("coursePubOk", coursePubList);
     }
 
+    /**
+     * 点击按钮抢购方法
+     *
+     * @param courseId
+     * @param token
+     * @return
+     */
+    @GetMapping(value = "/qg")
+    public String qg(String courseId, String token) {
+        return coursePubService.qgCourse(courseId, token);
+    }
+
+    /**
+     * 页面轮询检查是否抢购成功的方法
+     *
+     * @param courseId
+     * @param token
+     * @return
+     */
+    @GetMapping(value = "/qgWhile")
+    public String qgWhile(String courseId, String token) {
+        return coursePubService.qgWhile(courseId, token);
+    }
 
 }

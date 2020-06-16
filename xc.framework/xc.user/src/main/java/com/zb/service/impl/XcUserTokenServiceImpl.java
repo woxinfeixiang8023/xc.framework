@@ -68,24 +68,6 @@ public class XcUserTokenServiceImpl implements XcUserTokenService {
         }
     }
 
-    /**
-     * 取出token值 XcUser对象
-     *
-     * @param token
-     * @return
-     */
-    /**
-     * 验证用户的身份
-     *
-     * @param token
-     * @return
-     */
-    public XcUser getCurrentUser(String token) {
-        String json = redisUtil.get(token).toString();
-        if (json == null) {
-            return null;
-        }
-        XcUser xcUser= JSON.parseObject(json, XcUser.class);
-        return xcUser;
-    }
+
+
 }
