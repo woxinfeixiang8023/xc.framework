@@ -16,6 +16,8 @@
         <module>xc.record</module>
         <module>xc.user</module>
         <module>xc.user.api</module>
+        <module>xc.backstage.api</module>
+        <module>xc.backstage</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

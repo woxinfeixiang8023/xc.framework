@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcTaskMapper">
+
+    <select id="getXcTaskById" resultType="com.zb.pojo.XcTask">
+        select
+        id as id,
+        create_time as createTime,
+        update_time as updateTime,
+        delete_time as deleteTime,
+        task_type as taskType,
+        mq_exchange as mqExchange,
+        mq_routingkey as mqRoutingkey,
+        request_body as requestBody,
+        version as version,
+        status as status,
+        errormsg as errormsg
+        from xc_order.xc_task
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcTaskListByMap" resultType="com.zb.pojo.XcTask" parameterType="java.util.Map">
+        select
+        id as id,
+        create_time as createTime,
+        update_time as updateTime,
+        delete_time as deleteTime,
+        task_type as taskType,
+        mq_exchange as mqExchange,
+        mq_routingkey as mqRoutingkey,
+        request_body as requestBody,
+        version as version,
+        status as status,
+        errormsg as errormsg
+        from xc_order.xc_task
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="createTime != null and createTime!=''">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime != null and updateTime!=''">
+                and update_time=#{updateTime}
+            </if>
+            <if test="deleteTime != null and deleteTime!=''">
+                and delete_time=#{deleteTime}
+            </if>
+            <if test="taskType != null and taskType!=''">
+                and task_type=#{taskType}
+            </if>
+            <if test="mqExchange != null and mqExchange!=''">
+                and mq_exchange=#{mqExchange}
+            </if>
+            <if test="mqRoutingkey != null and mqRoutingkey!=''">
+                and mq_routingkey=#{mqRoutingkey}
+            </if>
+            <if test="requestBody != null and requestBody!=''">
+                and request_body=#{requestBody}
+            </if>
+            <if test="version != null and version!=''">
+                and version=#{version}
+            </if>
+            <if test="status != null and status!=''">
+                and status=#{status}
+            </if>
+            <if test="errormsg != null and errormsg!=''">
+                and errormsg=#{errormsg}
+            </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcTaskCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_order.xc_task
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="createTime != null and createTime!=''">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime != null and updateTime!=''">
+                and update_time=#{updateTime}
+            </if>
+            <if test="deleteTime != null and deleteTime!=''">
+                and delete_time=#{deleteTime}
+            </if>
+            <if test="taskType != null and taskType!=''">
+                and task_type=#{taskType}
+            </if>
+            <if test="mqExchange != null and mqExchange!=''">
+                and mq_exchange=#{mqExchange}
+            </if>
+            <if test="mqRoutingkey != null and mqRoutingkey!=''">
+                and mq_routingkey=#{mqRoutingkey}
+            </if>
+            <if test="requestBody != null and requestBody!=''">
+                and request_body=#{requestBody}
+            </if>
+            <if test="version != null and version!=''">
+                and version=#{version}
+            </if>
+            <if test="status != null and status!=''">
+                and status=#{status}
+            </if>
+            <if test="errormsg != null and errormsg!=''">
+                and errormsg=#{errormsg}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcTask" parameterType="com.zb.pojo.XcTask">
+        insert into xc_order.xc_task(id,
+                                     create_time,
+                                     update_time,
+                                     delete_time,
+                                     task_type,
+                                     mq_exchange,
+                                     mq_routingkey,
+                                     request_body,
+                                     version,
+                                     status,
+                                     errormsg)
+        values (#{id},
+                now(),
+                now(),
+                now(),
+                #{taskType},
+                #{mqExchange},
+                #{mqRoutingkey},
+                #{requestBody},
+                #{version},
+                #{status},
+                #{errormsg})
+    </insert>
+
+    <update id="updateXcTask" parameterType="com.zb.pojo.XcTask">
+        update xc_order.xc_task
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="createTime != null and createTime!=''">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null and updateTime!=''">
+                update_time=#{updateTime},
+            </if>
+            <if test="deleteTime != null and deleteTime!=''">
+                delete_time=#{deleteTime},
+            </if>
+            <if test="taskType != null and taskType!=''">
+                task_type=#{taskType},
+            </if>
+            <if test="mqExchange != null and mqExchange!=''">
+                mq_exchange=#{mqExchange},
+            </if>
+            <if test="mqRoutingkey != null and mqRoutingkey!=''">
+                mq_routingkey=#{mqRoutingkey},
+            </if>
+            <if test="requestBody != null and requestBody!=''">
+                request_body=#{requestBody},
+            </if>
+            <if test="version != null and version!=''">
+                version=#{version},
+            </if>
+            <if test="status != null and status!=''">
+                status=#{status},
+            </if>
+            <if test="errormsg != null and errormsg!=''">
+                errormsg=#{errormsg}
+            </if>
+        </trim>
+    </update>
+    <select id="findByUpdateTimeBefore" resultType="com.zb.pojo.XcTask">
+        select id            as id,
+               create_time   as createTime,
+               update_time   as updateTime,
+               delete_time   as deleteTime,
+               task_type     as taskType,
+               mq_exchange   as mqExchange,
+               mq_routingkey as mqRoutingkey,
+               request_body  as requestBody,
+               version       as version,
+               status        as status,
+               errormsg      as errormsg
+        from xc_order.xc_task
+        WHERE TIMESTAMPDIFF(MINUTE, update_time, NOW()) > 1
+    </select>
+</mapper>

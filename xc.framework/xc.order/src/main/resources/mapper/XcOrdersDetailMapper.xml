@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.XcOrdersDetailMapper">
+
+    <select id="getXcOrdersDetailById" resultType="com.zb.pojo.XcOrdersDetail">
+        select
+        id as id,
+        order_number as orderNumber,
+        item_id as itemId,
+        item_num as itemNum,
+        item_price as itemPrice,
+        valid as valid,
+        start_time as startTime,
+        end_time as endTime
+        from xc_order.xc_orders_detail
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getXcOrdersDetailListByMap" resultType="com.zb.pojo.XcOrdersDetail" parameterType="java.util.Map">
+        select
+        id as id,
+        order_number as orderNumber,
+        item_id as itemId,
+        item_num as itemNum,
+        item_price as itemPrice,
+        valid as valid,
+        start_time as startTime,
+        end_time as endTime
+        from xc_order.xc_orders_detail
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="orderNumber != null and orderNumber!=''">
+                and order_number=#{orderNumber}
+            </if>
+            <if test="itemId != null and itemId!=''">
+                and item_id=#{itemId}
+            </if>
+            <if test="itemNum != null and itemNum!=''">
+                and item_num=#{itemNum}
+            </if>
+            <if test="itemPrice != null and itemPrice!=''">
+                and item_price=#{itemPrice}
+            </if>
+            <if test="valid != null and valid!=''">
+                and valid=#{valid}
+            </if>
+            <if test="startTime != null and startTime!=''">
+                and start_time=#{startTime}
+            </if>
+            <if test="endTime != null and endTime!=''">
+                and end_time=#{endTime}
+            </if>
+        </trim>
+        <if test="beginPos != null and pageSize != null ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getXcOrdersDetailCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_order.xc_orders_detail
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="orderNumber != null and orderNumber!=''">
+                and order_number=#{orderNumber}
+            </if>
+            <if test="itemId != null and itemId!=''">
+                and item_id=#{itemId}
+            </if>
+            <if test="itemNum != null and itemNum!=''">
+                and item_num=#{itemNum}
+            </if>
+            <if test="itemPrice != null and itemPrice!=''">
+                and item_price=#{itemPrice}
+            </if>
+            <if test="valid != null and valid!=''">
+                and valid=#{valid}
+            </if>
+            <if test="startTime != null and startTime!=''">
+                and start_time=#{startTime}
+            </if>
+            <if test="endTime != null and endTime!=''">
+                and end_time=#{endTime}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertXcOrdersDetail" parameterType="com.zb.pojo.XcOrdersDetail">
+        insert into xc_order.xc_orders_detail(id,
+                                              order_number,
+                                              item_id,
+                                              item_num,
+                                              item_price,
+                                              valid,
+                                              start_time,
+                                              end_time)
+        values (#{id},
+                #{orderNumber},
+                #{itemId},
+                #{itemNum},
+                #{itemPrice},
+                #{valid},
+                #{startTime},
+                #{endTime})
+    </insert>
+
+    <update id="updateXcOrdersDetail" parameterType="com.zb.pojo.XcOrdersDetail">
+        update xc_order.xc_orders_detail
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="orderNumber != null and orderNumber!=''">
+                order_number=#{orderNumber},
+            </if>
+            <if test="itemId != null and itemId!=''">
+                item_id=#{itemId},
+            </if>
+            <if test="itemNum != null and itemNum!=''">
+                item_num=#{itemNum},
+            </if>
+            <if test="itemPrice != null and itemPrice!=''">
+                item_price=#{itemPrice},
+            </if>
+            <if test="valid != null and valid!=''">
+                valid=#{valid},
+            </if>
+            <if test="startTime != null and startTime!=''">
+                start_time=#{startTime},
+            </if>
+            <if test="endTime != null and endTime!=''">
+                end_time=#{endTime}
+            </if>
+        </trim>
+    </update>
+</mapper>
