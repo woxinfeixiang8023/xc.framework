@@ -17,4 +17,13 @@ public interface XcTaskService {
      * @return
      */
     public List<XcTask> findByUpdateTimeBefore();
+
+    /**
+     * 乐观锁,修改版本号
+     *
+     * @param xcTask
+     * @return
+     * @throws Exception
+     */
+    public int updateTaskVersion(XcTask xcTask) throws Exception;
 }
