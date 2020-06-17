@@ -25,5 +25,5 @@ public interface XcTaskService {
      * @return
      * @throws Exception
      */
-    public int updateTaskVersion(XcTask xcTask) throws Exception;
+    public int updateTaskVersion(XcTask xcTask);
 }

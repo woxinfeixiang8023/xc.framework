@@ -193,4 +193,10 @@
         from xc_order.xc_task
         WHERE TIMESTAMPDIFF(MINUTE, update_time, NOW()) > 1
     </select>
+    <update id="updateTaskVersion" parameterType="com.zb.pojo.XcTask">
+        update xc_order.xc_task
+        set version = version + 1
+        where id = #{id}
+          and version = #{version}
+    </update>
 </mapper>

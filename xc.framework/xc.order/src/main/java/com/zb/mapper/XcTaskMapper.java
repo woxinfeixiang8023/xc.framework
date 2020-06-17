@@ -36,5 +36,13 @@ public interface XcTaskMapper {
      */
     public List<XcTask> findByUpdateTimeBefore() throws Exception;
 
+    /**
+     * 乐观锁,修改版本号
+     *
+     * @param xcTask
+     * @return
+     * @throws Exception
+     */
+    public int updateTaskVersion(XcTask xcTask) throws Exception;
 
 }

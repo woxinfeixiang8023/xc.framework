@@ -29,4 +29,14 @@ public class XcTaskServiceImpl implements XcTaskService {
         }
         return null;
     }
+
+    @Override
+    public int updateTaskVersion(XcTask xcTask) {
+        try {
+            return xcTaskMapper.updateTaskVersion(xcTask);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
