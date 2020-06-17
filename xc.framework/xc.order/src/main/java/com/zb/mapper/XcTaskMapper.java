@@ -10,8 +10,14 @@ import java.util.Map;
 
 @Mapper
 public interface XcTaskMapper {
-
-    public XcTask getXcTaskById(@Param(value = "id") Long id) throws Exception;
+    /**
+     * 根据任务编号查询任务信息
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public XcTask getXcTaskById(@Param(value = "id") String id) throws Exception;
 
     public List<XcTask> getXcTaskListByMap(Map<String, Object> param) throws Exception;
 

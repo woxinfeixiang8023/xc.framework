@@ -19,11 +19,17 @@ public interface XcTaskService {
     public List<XcTask> findByUpdateTimeBefore();
 
     /**
-     * 乐观锁,修改版本号
+     * 获取锁
+     *
+     * @param id
+     * @param version
+     */
+    public int updateTaskVersion(String id, Integer version);
+
+    /**
+     * 根据传递的任务执行mq的发送
      *
      * @param xcTask
-     * @return
-     * @throws Exception
      */
-    public int updateTaskVersion(XcTask xcTask);
+    public void publishTask(XcTask xcTask);
 }
