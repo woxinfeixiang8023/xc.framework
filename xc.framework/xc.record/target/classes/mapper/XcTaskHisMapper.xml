@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zb.mapper.XcTaskHisMapper">
 
-    <select id="getXcTaskHisById" resultType="com.zb.XcTaskHis">
+    <select id="getXcTaskHisById" resultType="com.zb.pojo.XcTaskHis">
         select
         id as id,
         create_time as createTime,
@@ -17,7 +17,7 @@
         version as version,
         status as status,
         errormsg as errormsg
-        from xc_order.xc_task_his
+        from xc_learning.xc_task_his
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null">
                 and id=#{id}
@@ -25,7 +25,7 @@
         </trim>
     </select>
 
-    <select id="getXcTaskHisListByMap" resultType="com.zb.XcTaskHis" parameterType="java.util.Map">
+    <select id="getXcTaskHisListByMap" resultType="com.zb.pojo.XcTaskHis" parameterType="java.util.Map">
         select
         id as id,
         create_time as createTime,
@@ -38,7 +38,7 @@
         version as version,
         status as status,
         errormsg as errormsg
-        from xc_order.xc_task_his
+        from xc_learning.xc_task_his
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null and id!=''">
                 and id=#{id}
@@ -80,7 +80,7 @@
     </select>
 
     <select id="getXcTaskHisCountByMap" resultType="Integer" parameterType="java.util.Map">
-        select count(*) from xc_order.xc_task_his
+        select count(*) from xc_learning.xc_task_his
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null and id!=''">
                 and id=#{id}
@@ -118,18 +118,18 @@
         </trim>
     </select>
 
-    <insert id="insertXcTaskHis" parameterType="com.zb.XcTaskHis">
-        insert into xc_order.xc_task_his(id,
-                                         create_time,
-                                         update_time,
-                                         delete_time,
-                                         task_type,
-                                         mq_exchange,
-                                         mq_routingkey,
-                                         request_body,
-                                         version,
-                                         status,
-                                         errormsg)
+    <insert id="insertXcTaskHis" parameterType="com.zb.pojo.XcTaskHis">
+        insert into xc_learning.xc_task_his(id,
+                                            create_time,
+                                            update_time,
+                                            delete_time,
+                                            task_type,
+                                            mq_exchange,
+                                            mq_routingkey,
+                                            request_body,
+                                            version,
+                                            status,
+                                            errormsg)
         values (#{id},
                 #{createTime},
                 #{updateTime},
@@ -143,8 +143,8 @@
                 #{errormsg})
     </insert>
 
-    <update id="updateXcTaskHis" parameterType="com.zb.XcTaskHis">
-        update xc_order.xc_task_his
+    <update id="updateXcTaskHis" parameterType="com.zb.pojo.XcTaskHis">
+        update xc_learning.xc_task_his
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
             <if test="createTime != null and createTime!=''">
                 create_time=#{createTime},

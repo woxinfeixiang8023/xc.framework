@@ -1,0 +1,28 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: orderserver
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xc_course
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+    password: ok
+    port: 6379
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:ok@localhost:7001/eureka/
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    auto-mapping-behavior: FULL

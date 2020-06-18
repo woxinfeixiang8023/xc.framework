@@ -199,4 +199,9 @@
         where id = #{id}
           and version = #{version}
     </update>
+    <delete id="deleteTask">
+        delete
+        from xc_order.xc_task
+        where id = #{id}
+    </delete>
 </mapper>

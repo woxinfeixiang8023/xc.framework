@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface XcOrdersMapper {
 
-    public XcOrders getXcOrdersById(@Param(value = "id") Long id) throws Exception;
+    public XcOrders getXcOrdersById(@Param(value = "id") String id) throws Exception;
 
     public List<XcOrders> getXcOrdersListByMap(Map<String, Object> param) throws Exception;
 

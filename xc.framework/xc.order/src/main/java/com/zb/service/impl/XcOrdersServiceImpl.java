@@ -105,8 +105,13 @@ public class XcOrdersServiceImpl implements XcOrdersService {
                 xcTask.setMqExchange("ex_learning_addchoosecourse");
                 xcTask.setMqRoutingkey("addchoosecourse");
                 Map<String, Object> requestBody = new HashMap<>();
-                requestBody.put("userId", 10);
-                requestBody.put("courseId", 11);
+                requestBody.put("userId", xcOrders.getUserId());
+                requestBody.put("courseId", xcOrders.getItemId());
+                requestBody.put("charge", xcOrders.getPayType());
+                requestBody.put("price", xcOrders.getItemPrice());
+                requestBody.put("valid", xcOrders.getValid());
+                requestBody.put("startTime", xcOrders.getStartTime());
+                requestBody.put("endTime", xcOrders.getEndTime());
                 xcTask.setRequestBody(JSON.toJSONString(requestBody));
                 xcTask.setVersion(1);
                 xcTask.setStatus(1 + "");

@@ -51,4 +51,13 @@ public interface XcTaskMapper {
      */
     public int updateTaskVersion(XcTask xcTask) throws Exception;
 
+    /**
+     * 删除记录表中的数据
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public int deleteTask(@Param(value = "id") String id) throws Exception;
+
 }

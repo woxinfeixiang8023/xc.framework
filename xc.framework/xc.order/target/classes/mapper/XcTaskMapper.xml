@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zb.mapper.XcTaskHisMapper">
+<mapper namespace="com.zb.mapper.XcTaskMapper">
 
-    <select id="getXcTaskHisById" resultType="com.zb.XcTaskHis">
+    <select id="getXcTaskById" resultType="com.zb.pojo.XcTask">
         select
         id as id,
         create_time as createTime,
@@ -17,7 +17,7 @@
         version as version,
         status as status,
         errormsg as errormsg
-        from xc_order.xc_task_his
+        from xc_order.xc_task
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null">
                 and id=#{id}
@@ -25,7 +25,7 @@
         </trim>
     </select>
 
-    <select id="getXcTaskHisListByMap" resultType="com.zb.XcTaskHis" parameterType="java.util.Map">
+    <select id="getXcTaskListByMap" resultType="com.zb.pojo.XcTask" parameterType="java.util.Map">
         select
         id as id,
         create_time as createTime,
@@ -38,7 +38,7 @@
         version as version,
         status as status,
         errormsg as errormsg
-        from xc_order.xc_task_his
+        from xc_order.xc_task
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null and id!=''">
                 and id=#{id}
@@ -79,8 +79,8 @@
         </if>
     </select>
 
-    <select id="getXcTaskHisCountByMap" resultType="Integer" parameterType="java.util.Map">
-        select count(*) from xc_order.xc_task_his
+    <select id="getXcTaskCountByMap" resultType="Integer" parameterType="java.util.Map">
+        select count(*) from xc_order.xc_task
         <trim prefix="where" prefixOverrides="and | or">
             <if test="id != null and id!=''">
                 and id=#{id}
@@ -118,22 +118,22 @@
         </trim>
     </select>
 
-    <insert id="insertXcTaskHis" parameterType="com.zb.XcTaskHis">
-        insert into xc_order.xc_task_his(id,
-                                         create_time,
-                                         update_time,
-                                         delete_time,
-                                         task_type,
-                                         mq_exchange,
-                                         mq_routingkey,
-                                         request_body,
-                                         version,
-                                         status,
-                                         errormsg)
+    <insert id="insertXcTask" parameterType="com.zb.pojo.XcTask">
+        insert into xc_order.xc_task(id,
+                                     create_time,
+                                     update_time,
+                                     delete_time,
+                                     task_type,
+                                     mq_exchange,
+                                     mq_routingkey,
+                                     request_body,
+                                     version,
+                                     status,
+                                     errormsg)
         values (#{id},
-                #{createTime},
-                #{updateTime},
-                #{deleteTime},
+                now(),
+                now(),
+                now(),
                 #{taskType},
                 #{mqExchange},
                 #{mqRoutingkey},
@@ -143,14 +143,14 @@
                 #{errormsg})
     </insert>
 
-    <update id="updateXcTaskHis" parameterType="com.zb.XcTaskHis">
-        update xc_order.xc_task_his
+    <update id="updateXcTask" parameterType="com.zb.pojo.XcTask">
+        update xc_order.xc_task
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
             <if test="createTime != null and createTime!=''">
                 create_time=#{createTime},
             </if>
             <if test="updateTime != null and updateTime!=''">
-                update_time=#{updateTime},
+                update_time=now(),
             </if>
             <if test="deleteTime != null and deleteTime!=''">
                 delete_time=#{deleteTime},
@@ -177,5 +177,26 @@
                 errormsg=#{errormsg}
             </if>
         </trim>
+    </update>
+    <select id="findByUpdateTimeBefore" resultType="com.zb.pojo.XcTask">
+        select id            as id,
+               create_time   as createTime,
+               update_time   as updateTime,
+               delete_time   as deleteTime,
+               task_type     as taskType,
+               mq_exchange   as mqExchange,
+               mq_routingkey as mqRoutingkey,
+               request_body  as requestBody,
+               version       as version,
+               status        as status,
+               errormsg      as errormsg
+        from xc_order.xc_task
+        WHERE TIMESTAMPDIFF(MINUTE, update_time, NOW()) > 1
+    </select>
+    <update id="updateTaskVersion" parameterType="com.zb.pojo.XcTask">
+        update xc_order.xc_task
+        set version = version + 1
+        where id = #{id}
+          and version = #{version}
     </update>
 </mapper>

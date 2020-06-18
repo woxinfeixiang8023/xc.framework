@@ -24,7 +24,7 @@ public interface XcTaskService {
      * @param id
      * @param version
      */
-    public int updateTaskVersion(String id, Integer version);
+    public int getTask(String id, Integer version);
 
     /**
      * 根据传递的任务执行mq的发送
@@ -32,4 +32,11 @@ public interface XcTaskService {
      * @param xcTask
      */
     public void publishTask(XcTask xcTask);
+
+    /**
+     * 选择商品微服务返回到订单微服之后执行的逻辑
+     *
+     * @param xcTask
+     */
+    public void finishTask(XcTask xcTask);
 }

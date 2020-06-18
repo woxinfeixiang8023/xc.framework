@@ -14,4 +14,4 @@ zuul:
       serviceId: courseserver
     myuserserver:
       path: /user/**
-      serviceId: userserver
+      serviceId: userServer
