@@ -30,11 +30,12 @@ public class XcOrdersController {
         XcUser currentUser = xcUserFeignClient.getCurrentUser(xcOrders.getToken());
         xcOrders.setUserId(currentUser.getId());
         xcOrders.setStatus(0);
+        xcOrders.setItemNum(1);
         return xcOrdersService.insertXcOrders(xcOrders);
     }
 
-    @PostMapping(value = "/findOrderPay/{token}")
-    public XcOrders findOrderPay(@PathVariable("token") String token) {
+    @PostMapping(value = "/findOrderPay")
+    public XcOrders findOrderPay(@RequestParam String token) {
         return xcOrdersService.findOrderPay(token);
     }
 
@@ -43,8 +44,8 @@ public class XcOrdersController {
         return xcOrdersService.updateXcOrders(xcOrders);
     }
 
-    @PostMapping(value = "/getXcOrderByOrderNo/{orderNo}")
-    public XcOrders getXcOrderByOrderNo(@PathVariable("orderNo") String orderNo) {
+    @PostMapping(value = "/getXcOrderByOrderNo")
+    public XcOrders getXcOrderByOrderNo(String orderNo) {
         return xcOrdersService.getXcOrderByOrderNo(orderNo);
     }
 

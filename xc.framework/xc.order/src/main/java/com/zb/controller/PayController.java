@@ -10,12 +10,15 @@ import com.zb.config.AlipayConfig;
 import com.zb.feign.XcCourseTempStoreFeignClient;
 import com.zb.feign.XcOrdersFeignClient;
 import com.zb.pojo.XcOrders;
+import com.zb.service.XcOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,7 +27,7 @@ import java.util.Map;
 public class PayController {
 
     @Autowired
-    private XcOrdersFeignClient xcOrdersFeignClient;
+    private XcOrdersService xcOrdersService;
     @Autowired
     private XcCourseTempStoreFeignClient xcCourseTempStoreFeignClient;
 
@@ -123,8 +126,8 @@ public class PayController {
             xcOrders.setPayNumber(trade_no);
             xcOrders.setStatus(2);
             //调用修改订单状态
-            xcOrdersFeignClient.updateXcOrders(xcOrders);
-            XcOrders xcOrderByOrderNo = xcOrdersFeignClient.getXcOrderByOrderNo(out_trade_no);
+            xcOrdersService.updateXcOrders(xcOrders);
+            XcOrders xcOrderByOrderNo = xcOrdersService.getXcOrderByOrderNo(out_trade_no);
             Map<String, Object> param = new HashMap<>();
             param.put("userId", xcOrderByOrderNo.getUserId());
             param.put("itemId", xcOrderByOrderNo.getItemId());
@@ -134,8 +137,8 @@ public class PayController {
             //请在这里加上商户的业务逻辑程序代码
             //该页面可做页面美工编辑
             response.getWriter().println("success");
+            response.sendRedirect("http://www.baidu.com");
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
-
             //////////////////////////////////////////////////////////////////////////////////////////
         } else {
             //该页面可做页面美工编辑

@@ -5,7 +5,7 @@ spring:
     name: orderserver
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xc_course
+    url: jdbc:mysql://localhost:3306/xc_order
     username: root
     password: root
   redis:
@@ -26,3 +26,5 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     auto-mapping-behavior: FULL
+myes:
+  host: 127.0.0.1:9200

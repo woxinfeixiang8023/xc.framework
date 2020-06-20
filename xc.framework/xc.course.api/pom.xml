@@ -21,11 +21,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>xc.order.api</artifactId>
-            <groupId>com.zb</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <artifactId>xc.user.api</artifactId>
             <groupId>com.zb</groupId>
             <version>1.0-SNAPSHOT</version>

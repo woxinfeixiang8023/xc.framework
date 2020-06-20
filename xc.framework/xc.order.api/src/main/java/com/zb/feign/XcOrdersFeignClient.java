@@ -17,12 +17,12 @@ public interface XcOrdersFeignClient {
     @PostMapping(value = "/insertXcOrders")
     public Integer insertXcOrders(XcOrders xcOrders);
 
-    @GetMapping(value = "/findOrderPay/{token}")
-    public XcOrders findOrderPay(@PathVariable("token") String token);
+    @GetMapping(value = "/findOrderPay")
+    public XcOrders findOrderPay(String token);
 
     @PostMapping(value = "/updateXcOrders")
     public Integer updateXcOrders(XcOrders xcOrders);
 
-    @PostMapping(value = "/getXcOrderByOrderNo/{orderNo}")
-    public XcOrders getXcOrderByOrderNo(@PathVariable("orderNo") String orderNo);
+    @PostMapping(value = "/getXcOrderByOrderNo")
+    public XcOrders getXcOrderByOrderNo(String orderNo);
 }

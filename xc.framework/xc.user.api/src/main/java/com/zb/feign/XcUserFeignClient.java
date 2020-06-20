@@ -17,19 +17,19 @@ import java.util.Map;
 public interface XcUserFeignClient {
 
     @PostMapping(value = "/getXcUserById/{id}")
-    public XcUser getXcUserById(@PathVariable("id") String id)throws Exception;
+    public XcUser getXcUserById(@PathVariable("id") String id) throws Exception;
 
     @PostMapping(value = "/getXcUserListByMap")
-    public List<XcUser> getXcUserListByMap(@RequestParam Map<String, Object> param)throws Exception;
+    public List<XcUser> getXcUserListByMap(@RequestParam Map<String, Object> param) throws Exception;
 
     @PostMapping(value = "/insertXcUser")
-    public Integer insertXcUser(@RequestBody XcUser xcUser)throws Exception;
+    public Integer insertXcUser(@RequestBody XcUser xcUser) throws Exception;
 
     @PostMapping(value = "/updateXcUser")
-    public Integer updateXcUser(@RequestBody XcUser xcUser)throws Exception;
+    public Integer updateXcUser(@RequestBody XcUser xcUser) throws Exception;
 
     @PostMapping(value = "/deleteXcUserById/{id}")
-    public Integer deleteXcUserById(@PathVariable(value = "id") String id)throws Exception;
+    public Integer deleteXcUserById(@PathVariable(value = "id") String id) throws Exception;
 
     @PostMapping(value = "/getCurrentUser/{token}")
     public XcUser getCurrentUser(@PathVariable("token") String token);

@@ -87,6 +87,7 @@ public class XcLearningCourseRecordServiceImpl implements XcLearningCourseRecord
                 xcTaskHis.setVersion(1);
                 xcTaskHisMapper.updateXcTaskHis(xcTaskHis);
             }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }

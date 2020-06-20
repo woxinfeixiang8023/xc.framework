@@ -1,7 +1,11 @@
 package com.zb.job;
 
+import com.rabbitmq.client.Channel;
+import com.zb.config.RabbitMQConfig;
 import com.zb.pojo.XcTask;
 import com.zb.service.XcTaskService;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -34,6 +38,12 @@ public class XcOrderTaskJob {
                 xcTaskService.publishTask(xcTask);
             }
         }
+    }
+
+    @RabbitListener(queues = RabbitMQConfig.XC_LEARNING_FINISHADDCHOOSECOURSE)
+    public void reviceTaskSuccess(XcTask xcTask, Message message, Channel channel) {
+        //删除任务同时进行历史存储
+        xcTaskService.finishTask(xcTask);
     }
 
 }

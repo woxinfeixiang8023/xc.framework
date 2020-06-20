@@ -1,9 +1,28 @@
 登录
 POST   localhost:8001/user/getXcUserListByMap?username=teacher10&password=123456789
+
 抢购
 GET     http://localhost:8001/course/qg?courseId=297e7c7c62b888f00162b8a7dec20000&token=token-PC-410a4d044151a691448419d8bf272704-20200616163706-717896
+
 循环抢购
 GET     http://localhost:8001/course/qgWhile?courseId=297e7c7c62b888f00162b8a7dec20000&token=token-PC-410a4d044151a691448419d8bf272704-20200616163706-717896
+
+提交订单
+POST http://localhost:8001/order/insertXcOrders
+参数:
+token           token-PC-410a4d044151a691448419d8bf272704-20200618152525-717896
+itemId          297e7c7c62b888f00162b8a7dec20000
+initialPrice    50
+itemPrice       50
+valid           204002
+
+支付(查询信息)
+POST http://localhost:8001/order/findOrderPay?token=token-PC-410a4d044151a691448419d8bf272704-20200618152525-717896
+
+
+
+
+
 
 
 

@@ -49,7 +49,7 @@ public class XcOrdersServiceImpl implements XcOrdersService {
             Map<String, Object> mqData = new HashMap<>();
             mqData.put("orderNumber", xcOrders.getOrderNumber());
             System.out.println("延迟队列五分钟之后检查订单的状态 ");
-            amqpTemplate.convertAndSend(DelayRabbitConfig.ORDER_EXCHANGE_NAME1, DelayRabbitConfig.ORDER_DELAY_ROUTING_KEY1, mqData, new MessagePostProcessor() {
+            amqpTemplate.convertAndSend(DelayRabbitConfig.ORDER_EXCHANGE_NAME1, DelayRabbitConfig.ORDER_ROUTING_KEY1, mqData, new MessagePostProcessor() {
                 @Override
                 public Message postProcessMessage(Message message) throws AmqpException {
                     message.getMessageProperties().setExpiration(60 * 1000 * 5 + "");
@@ -99,19 +99,20 @@ public class XcOrdersServiceImpl implements XcOrdersService {
             //向任务表中添加数据， 最终一致性的程序 CAP理论
             if (num > 0) {
                 //根据订单的编号查询 用户和商品的信息
+                XcOrders xcOrderByOrderNo = xcOrdersMapper.getXcOrderByOrderNo(xcOrders.getOrderNumber());
                 XcTask xcTask = new XcTask();
                 xcTask.setId(IdWorker.getId());
                 xcTask.setTaskType(1 + "");
                 xcTask.setMqExchange("ex_learning_addchoosecourse");
                 xcTask.setMqRoutingkey("addchoosecourse");
                 Map<String, Object> requestBody = new HashMap<>();
-                requestBody.put("userId", xcOrders.getUserId());
-                requestBody.put("courseId", xcOrders.getItemId());
-                requestBody.put("charge", xcOrders.getPayType());
-                requestBody.put("price", xcOrders.getItemPrice());
-                requestBody.put("valid", xcOrders.getValid());
-                requestBody.put("startTime", xcOrders.getStartTime());
-                requestBody.put("endTime", xcOrders.getEndTime());
+                requestBody.put("userId", xcOrderByOrderNo.getUserId());
+                requestBody.put("courseId", xcOrderByOrderNo.getItemId());
+                requestBody.put("charge", xcOrderByOrderNo.getPayType());
+                requestBody.put("price", xcOrderByOrderNo.getItemPrice());
+                requestBody.put("valid", xcOrderByOrderNo.getValid());
+                requestBody.put("startTime", xcOrderByOrderNo.getStartTime());
+                requestBody.put("endTime", xcOrderByOrderNo.getEndTime());
                 xcTask.setRequestBody(JSON.toJSONString(requestBody));
                 xcTask.setVersion(1);
                 xcTask.setStatus(1 + "");
