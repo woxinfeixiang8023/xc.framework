@@ -6,6 +6,7 @@ import com.zb.config.DelayRabbitConfig;
 import com.zb.config.MQConfig;
 import com.zb.dto.Page;
 import com.zb.feign.XcUserFeignClient;
+import com.zb.form.SearchCoursePubFrom;
 import com.zb.mapper.CoursePubMapper;
 import com.zb.mapper.XcCourseTempStoreMapper;
 import com.zb.pojo.CoursePub;
@@ -66,7 +67,7 @@ public class CoursePubServiceImpl implements CoursePubService {
     private AmqpTemplate amqpTemplate;
 
     @Override
-    public PageUtil<CoursePub> searchCoursePub(String id, String name, String mt, String st, String grade, Integer isHot, Integer isNew, Integer isRec, Integer isTop, Integer index, Integer size) throws Exception {
+    public PageUtil<CoursePub> searchCoursePub(SearchCoursePubFrom searchCoursePubFrom) throws Exception {
         PageUtil<CoursePub> page = new PageUtil<>();
         List<CoursePub> coursePubList = new ArrayList<>();
         //创建查询请求对象
@@ -75,39 +76,39 @@ public class CoursePubServiceImpl implements CoursePubService {
         //构建查询方式
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         //分页参数
-        searchSourceBuilder.from((index - 1) * size);
-        searchSourceBuilder.size(size);
+        searchSourceBuilder.from((searchCoursePubFrom.getIndex() - 1) * searchCoursePubFrom.getSize());
+        searchSourceBuilder.size(searchCoursePubFrom.getSize());
         //因为是多个条件的组合创建bool查询
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (id != null && !"".equals(id)) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("id", id));
+        if (searchCoursePubFrom.getId() != null && !"".equals(searchCoursePubFrom.getId())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("id", searchCoursePubFrom.getId()));
         }
         // 关键字查询
-        if (name != null && !"".equals(name)) {
+        if (searchCoursePubFrom.getName() != null && !"".equals(searchCoursePubFrom.getName())) {
             //多个列的分词查询
-            boolQueryBuilder.must(QueryBuilders.multiMatchQuery(name, new String[]{"name"})
+            boolQueryBuilder.must(QueryBuilders.multiMatchQuery(searchCoursePubFrom.getName(), new String[]{"name"})
                     .operator(Operator.OR).field("name", 10));
         }
-        if (mt != null && !"".equals(mt)) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("mt", mt));
+        if (searchCoursePubFrom.getMt() != null && !"".equals(searchCoursePubFrom.getMt())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("mt", searchCoursePubFrom.getMt()));
         }
-        if (st != null && !"".equals(st)) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("st", st));
+        if (searchCoursePubFrom.getSt() != null && !"".equals(searchCoursePubFrom.getSt())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("st", searchCoursePubFrom.getSt()));
         }
-        if (grade != null && !"".equals(grade)) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("grade", grade));
+        if (searchCoursePubFrom.getGrade() != null && !"".equals(searchCoursePubFrom.getGrade())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("grade", searchCoursePubFrom.getGrade()));
         }
-        if (isHot != null && isHot != -1) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("isHot", isHot));
+        if (searchCoursePubFrom.getIsHot() != null && searchCoursePubFrom.getIsHot() != -1) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("isHot", searchCoursePubFrom.getIsHot()));
         }
-        if (isNew != null && isNew != -1) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("isNew", isNew));
+        if (searchCoursePubFrom.getIsNew() != null && searchCoursePubFrom.getIsNew() != -1) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("isNew", searchCoursePubFrom.getIsNew()));
         }
-        if (isRec != null && isRec != -1) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("isRec", isRec));
+        if (searchCoursePubFrom.getIsRec() != null && searchCoursePubFrom.getIsRec() != -1) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("isRec", searchCoursePubFrom.getIsRec()));
         }
-        if (isTop != null && isTop != -1) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("isTop", isTop));
+        if (searchCoursePubFrom.getIsTop() != null && searchCoursePubFrom.getIsTop() != -1) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("isTop", searchCoursePubFrom.getIsTop()));
         }
         //添加排序
         searchSourceBuilder.sort(new FieldSortBuilder("stuUsers").order(SortOrder.ASC));
@@ -202,8 +203,8 @@ public class CoursePubServiceImpl implements CoursePubService {
             coursePubList.add(coursePub);
         }
         page.setData(coursePubList);
-        page.setIndex(index);
-        page.setSize(size);
+        page.setIndex(searchCoursePubFrom.getIndex());
+        page.setSize(searchCoursePubFrom.getSize());
         page.setCount(Integer.parseInt(hits.getTotalHits() + ""));
         return page;
     }

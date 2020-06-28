@@ -113,8 +113,15 @@
             </if>
         </trim>
     </update>
-    <select id="getXcCommentScore" resultType="com.zb.pojo.XcComment">
-        SELECT CONVERT(AVG(score), DECIMAL(10, 1)) AS avgScore, SUM(score) AS sumScore
+    <select id="getXcCommentCourseId" resultType="com.zb.pojo.XcComment">
+        SELECT courseId AS courseId
         FROM `xc_course`.`xc_comment`
+        GROUP BY courseId
+    </select>
+    <select id="getXcCommentScore" resultType="com.zb.pojo.XcComment">
+        SELECT CONVERT(AVG(score), DECIMAL(10, 1)) AS avgScore,
+               SUM(score)                          AS sumScore
+        FROM `xc_course`.`xc_comment`
+        where courseId = #{courseId}
     </select>
 </mapper>

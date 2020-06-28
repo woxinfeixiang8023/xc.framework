@@ -20,7 +20,9 @@ public interface XcCommentMapper {
 
     public Integer updateXcComment(XcComment xcComment) throws Exception;
 
-    public List<XcComment> getXcCommentScore();
+    public List<XcComment> getXcCommentCourseId();
+
+    public XcComment getXcCommentScore(@Param("courseId") String courseId);
 
 
 }

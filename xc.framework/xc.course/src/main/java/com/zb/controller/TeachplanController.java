@@ -1,12 +1,17 @@
 package com.zb.controller;
 
+import com.zb.dto.Dto;
+import com.zb.dto.DtoUtil;
+import com.zb.form.GetTeachplanListByMapForm;
 import com.zb.form.TeachplanForm;
 import com.zb.pojo.Teachplan;
 import com.zb.service.TeachplanService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,19 +22,24 @@ import java.util.List;
  * @Version V1.0
  */
 @RestController
+@Api(value = "目录查询的接口", tags = {"查询课程目录接口"})
 public class TeachplanController {
 
     @Autowired
     private TeachplanService teachplanService;
 
+    @ApiOperation(value = "查询课程详细信息", notes = "根据课程id查询课程详细信息")
+    @ApiImplicitParam(name = "courseId", value = "课程id", required = true, dataType = "String", paramType = "path")
     @GetMapping(value = "/getTeachplanFormByCourseId/{courseId}")
-    public TeachplanForm getTeachplanFormByCourseId(@PathVariable("courseId") String courseId) {
-        return teachplanService.getTeachplanFormByCourseId(courseId);
+    public Dto getTeachplanFormByCourseId(@PathVariable("courseId") String courseId) {
+        return DtoUtil.returnSuccess("getTeachplanFormByCourseId", teachplanService.getTeachplanFormByCourseId(courseId));
     }
 
-    @GetMapping(value = "/getTeachplanListByMap")
-    public List<Teachplan> getTeachplanListByMap(String courseId, String grade, String parentId) {
-        return teachplanService.getTeachplanListByMap(courseId, grade, parentId);
+    @ApiOperation(value = "查询目录", notes = "根查询课据课程id、目录级别、父级id程目录")
+    @ApiImplicitParam(name = "getTeachplanListByMapForm", value = "查询目录实体", required = true, dataType = "GetTeachplanListByMapForm")
+    @PostMapping(value = "/getTeachplanListByMap")
+    public Dto getTeachplanListByMap(@RequestBody GetTeachplanListByMapForm getTeachplanListByMapForm) {
+        return DtoUtil.returnSuccess("getTeachplanListByMap", teachplanService.getTeachplanListByMap(getTeachplanListByMapForm));
     }
 
 }

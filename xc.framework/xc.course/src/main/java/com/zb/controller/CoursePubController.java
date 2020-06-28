@@ -3,6 +3,8 @@ package com.zb.controller;
 import com.alibaba.fastjson.JSON;
 import com.zb.dto.Dto;
 import com.zb.dto.DtoUtil;
+import com.zb.form.GetIndexReadListForm;
+import com.zb.form.SearchCoursePubFrom;
 import com.zb.pojo.CoursePub;
 import com.zb.pojo.XcContent;
 import com.zb.service.CoursePubService;
@@ -12,10 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -36,52 +35,25 @@ public class CoursePubController {
     private RestTemplate restTemplate;
 
     @ApiOperation(value = "查询分类", notes = "根据父级信息查询分类")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "父级id", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "name", value = "课程名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "mt", value = "一级分类", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "st", value = "二级分类", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "grade", value = "课程等级", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "isHot", value = "是否热评（1.热评 2.否）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "isNew", value = "是否最新（1.最新 2.否）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "isRec", value = "是否推荐（1.推荐 2.否）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "isTop", value = "是否是精品TOP榜（1.是 2.否）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "index", value = "当前页码数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条数据", required = true, dataType = "int", paramType = "path")
-    })
-    @GetMapping(value = "/searchCoursePub")
-    public PageUtil<CoursePub> searchCoursePub(
-            @RequestParam(required = false) String id,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String mt,
-            @RequestParam(required = false) String st,
-            @RequestParam(required = false) String grade,
-            @RequestParam(required = false) Integer isHot,
-            @RequestParam(required = false) Integer isNew,
-            @RequestParam(required = false) Integer isRec,
-            @RequestParam(required = false) Integer isTop,
-            @RequestParam(value = "index", required = true, defaultValue = "1") Integer index,
-            @RequestParam(value = "size", required = true, defaultValue = "5") Integer size) throws Exception {
-        return coursePubService.searchCoursePub(id, name, mt, st, grade, isHot, isNew, isRec, isTop, index, size);
+    @ApiImplicitParam(name = "searchCoursePub", value = "分类查询实体", required = true, dataType = "SearchCoursePubFrom")
+    @PostMapping(value = "/searchCoursePub")
+    public Dto searchCoursePub(@RequestBody SearchCoursePubFrom searchCoursePubFrom) throws Exception {
+        return DtoUtil.returnSuccess("searchCoursePub", coursePubService.searchCoursePub(searchCoursePubFrom));
     }
 
-    @GetMapping(value = "/getIndexReadList")
-    @ApiOperation(value = "首页查询", notes = "根据推荐二级目录教师推荐查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "st", value = "二级目录", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "isRec", value = "是否推荐", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "isRecommend", value = "教师推荐", required = true, dataType = "String", paramType = "path")
-    })
-    public Dto getIndexReadList(String st, String isRec, String isRecommend) {
+    @PostMapping(value = "/getIndexReadList")
+    @ApiOperation(value = "首页查询", notes = "根据推荐、二级目录、教师推荐查询")
+    @ApiImplicitParam(name = "getIndexReadList", value = "首页查询实体", required = true, dataType = "GetIndexReadListForm")
+    public Dto getIndexReadList(@RequestBody GetIndexReadListForm getIndexReadListForm) {
         String myurl = "";
-        if (st != null && !"".equals(st)) {
-            myurl = "http://localhost:9000/readst?st=" + st;
+        if (getIndexReadListForm.getSt() != null && !"".equals(getIndexReadListForm.getSt())) {
+            myurl = "http://localhost:9000/readst?st=" + getIndexReadListForm.getSt();
         }
-        if (isRec != null && !"".equals(isRec)) {
-            myurl = "http://localhost:9000/readisRec?isRec=" + isRec;
+        if (getIndexReadListForm.getIsRec() != null && !"".equals(getIndexReadListForm.getIsRec())) {
+            myurl = "http://localhost:9000/readisRec?isRec=" + getIndexReadListForm.getIsRec();
         }
-        if (isRecommend != null && !"".equals(isRecommend)) {
-            myurl = "http://localhost:9000/readisRecommend?isRecommend=" + isRecommend;
+        if (getIndexReadListForm.getIsRecommend() != null && !"".equals(getIndexReadListForm.getIsRecommend())) {
+            myurl = "http://localhost:9000/readisRecommend?isRecommend=" + getIndexReadListForm.getIsRecommend();
         }
         if ("".equals(myurl)) {
             return null;
@@ -90,7 +62,7 @@ public class CoursePubController {
         List<CoursePub> coursePubList = null;
         coursePubList = JSON.parseArray(result, CoursePub.class);
         System.out.println("远程调用nginx中的接口程序:" + coursePubList);
-        return DtoUtil.returnSuccess("coursePubOk", coursePubList);
+        return DtoUtil.returnSuccess("getIndexReadList", coursePubList);
     }
 
     /**
@@ -100,9 +72,14 @@ public class CoursePubController {
      * @param token
      * @return
      */
-    @GetMapping(value = "/qg")
-    public String qg(String courseId, String token) {
-        return coursePubService.qgCourse(courseId, token);
+    @ApiOperation(value = "抢购", notes = "课程id和用户token")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "courseId", value = "课程id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "token", value = "用户token", required = true, dataType = "String", paramType = "path"),
+    })
+    @PostMapping(value = "/qg/{courseId}/{token}")
+    public Dto qg(@PathVariable("courseId") String courseId, @PathVariable("token") String token) {
+        return DtoUtil.returnSuccess("qg", coursePubService.qgCourse(courseId, token));
     }
 
     /**
@@ -112,9 +89,9 @@ public class CoursePubController {
      * @param token
      * @return
      */
-    @GetMapping(value = "/qgWhile")
-    public String qgWhile(String courseId, String token) {
-        return coursePubService.qgWhile(courseId, token);
+    @PostMapping(value = "/qgWhile/{courseId}/{token}")
+    public Dto qgWhile(@PathVariable("courseId") String courseId, @PathVariable("token") String token) {
+        return DtoUtil.returnSuccess("qgWhile", coursePubService.qgWhile(courseId, token));
     }
 
 }

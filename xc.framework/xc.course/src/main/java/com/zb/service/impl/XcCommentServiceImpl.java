@@ -2,8 +2,8 @@ package com.zb.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zb.feign.XcUserFeignClient;
+import com.zb.form.GetXcCommentListByMapForm;
 import com.zb.mapper.XcCommentMapper;
-import com.zb.pojo.Category;
 import com.zb.pojo.XcComment;
 import com.zb.pojo.XcUser;
 import com.zb.service.XcCommentService;
@@ -34,12 +34,12 @@ public class XcCommentServiceImpl implements XcCommentService {
     private RedisUtil redisUtil;
 
     @Override
-    public PageUtil<XcComment> getXcCommentListByMap(String courseId, Integer index, Integer size) {
+    public PageUtil<XcComment> getXcCommentListByMap(GetXcCommentListByMapForm getXcCommentListByMapForm) {
         try {
             Map<String, Object> param = new HashMap<>();
-            param.put("courseId", courseId);
-            param.put("start", (index - 1) * size);
-            param.put("size", size);
+            param.put("courseId", getXcCommentListByMapForm.getCourseId());
+            param.put("start", (getXcCommentListByMapForm.getIndex() - 1) * getXcCommentListByMapForm.getSize());
+            param.put("size", getXcCommentListByMapForm.getSize());
             List<XcComment> data = xcCommentMapper.getXcCommentListByMap(param);
             //循环调用user模块，根据评论的用户id获取用户信息
             for (XcComment xcComment : data) {
@@ -50,14 +50,13 @@ public class XcCommentServiceImpl implements XcCommentService {
             Integer count = xcCommentMapper.getXcCommentCountByMap(param);
             PageUtil<XcComment> page = new PageUtil<>();
             page.setData(data);
-            page.setIndex(index);
+            page.setIndex(getXcCommentListByMapForm.getIndex());
             page.setCount(count);
-            page.setSize(size);
+            page.setSize(getXcCommentListByMapForm.getSize());
             return page;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -71,13 +70,15 @@ public class XcCommentServiceImpl implements XcCommentService {
         return null;
     }
 
+
     @Scheduled(cron = "00 00 00 * * ?")
     @Override
     public void getScheduledScore() {
-        List<XcComment> xcCommentList = xcCommentMapper.getXcCommentScore();
+        List<XcComment> xcCommentList = xcCommentMapper.getXcCommentCourseId();
         for (XcComment xcComment : xcCommentList) {
+            XcComment xcCommentScore = xcCommentMapper.getXcCommentScore(xcComment.getCourseId());
             String key = "score:" + xcComment.getCourseId();
-            redisUtil.set(key, JSON.toJSONString(xcComment));
+            redisUtil.set(key, JSON.toJSONString(xcCommentScore));
         }
     }
 

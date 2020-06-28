@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zb.feign.XcTeacherFeignClient;
+import com.zb.form.GetTeachplanListByMapForm;
 import com.zb.form.TeachplanForm;
 import com.zb.mapper.CategoryMapper;
 import com.zb.mapper.CoursePubMapper;
@@ -40,31 +41,31 @@ public class TeachplanServiceImpl implements TeachplanService {
     private RedisUtil redisUtil;
 
     @Override
-    public List<Teachplan> getTeachplanListByMap(String courseId, String grade, String parentId) {
+    public List<Teachplan> getTeachplanListByMap(GetTeachplanListByMapForm getTeachplanListByMapForm) {
         try {
             List<Teachplan> teachplanList = null;
-            if (grade.equals("2")) {
-                String key = "teachplanTwo:" + courseId;
+            if (getTeachplanListByMapForm.getGrade().equals("2")) {
+                String key = "teachplanTwo:" + getTeachplanListByMapForm.getCourseId();
                 if (redisUtil.hasKey(key)) {
                     String json = redisUtil.get(key).toString();
                     teachplanList = JSON.parseArray(json, Teachplan.class);
                 } else {
                     Map<String, Object> param = new HashMap<>();
-                    param.put("courseid", courseId);
-                    param.put("grade", grade);
+                    param.put("courseid", getTeachplanListByMapForm.getCourseId());
+                    param.put("grade", getTeachplanListByMapForm.getGrade());
                     teachplanList = teachplanMapper.getTeachplanListByMap(param);
                     redisUtil.set(key, JSON.toJSONString(teachplanList));
                 }
                 return teachplanList;
-            } else if (grade.equals("3")) {
-                String key = "teachplanThr" + parentId;
+            } else if (getTeachplanListByMapForm.getGrade().equals("3")) {
+                String key = "teachplanThr:" + getTeachplanListByMapForm.getParentId();
                 if (redisUtil.hasKey(key)) {
                     String json = redisUtil.get(key).toString();
                     teachplanList = JSON.parseArray(json, Teachplan.class);
                 } else {
                     Map<String, Object> param = new HashMap<>();
-                    param.put("parentid", parentId);
-                    param.put("grade", grade);
+                    param.put("parentid", getTeachplanListByMapForm.getParentId());
+                    param.put("grade", getTeachplanListByMapForm.getGrade());
                     teachplanList = teachplanMapper.getTeachplanListByMap(param);
                     redisUtil.set(key, JSON.toJSONString(teachplanList));
                 }
@@ -98,7 +99,7 @@ public class TeachplanServiceImpl implements TeachplanService {
                     teachplan = listByMap.get(0);
                 }
                 //根据教师coursePub的teacherId查询信息
-                XcTeacher xcTeacher = xcTeacherFeignClient.getXcTeacherById(courseId);
+                XcTeacher xcTeacher = xcTeacherFeignClient.getXcTeacherById(coursePub.getTeacherId());
                 teachplanForm = new TeachplanForm(coursePub.getId(), coursePub.getName(), mtCategory.getName(), stCategory.getName(), coursePub.getGrade(), coursePub.getStudymodel(), coursePub.getDescription(), coursePub.getCharge(), coursePub.getValid(), coursePub.getPrice(), coursePub.getPriceOld(), coursePub.getExpires(), coursePub.getExpirationTime(), coursePub.getPic(), coursePub.getUsers(), coursePub.getStuUsers(), teachplan.getTimelength(), xcTeacher.getName(), xcTeacher.getIntro(), xcTeacher.getResume(), xcTeacher.getPic());
                 redisUtil.set(key, JSON.toJSONString(teachplanForm));
             }

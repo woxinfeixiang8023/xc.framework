@@ -19,17 +19,14 @@ import java.util.Map;
 @FeignClient(value = "userServer")
 public interface XcTeacherFeignClient {
     @PostMapping(value = "/getXcTeacherById/{id}")
-    public XcTeacher getXcTeacherById(@PathVariable("id") String id)throws Exception;
-
-    @PostMapping(value = "/getXcTeacherListByMap")
-    public List<XcTeacher> getXcTeacherListByMap(@RequestParam Map<String, Object> param)throws Exception;
+    public XcTeacher getXcTeacherById(@PathVariable("id") String id) throws Exception;
 
     @PostMapping(value = "/insertXcTeacher")
-    public Integer insertXcTeacher(@RequestBody XcTeacher xcTeacher)throws Exception;
+    public Integer insertXcTeacher(@RequestBody XcTeacher xcTeacher) throws Exception;
 
     @PostMapping(value = "/updateXcTeacher")
-    public Integer updateXcTeacher(@RequestBody XcTeacher xcTeacher)throws Exception;
+    public Integer updateXcTeacher(@RequestBody XcTeacher xcTeacher) throws Exception;
 
     @PostMapping(value = "/deleteXcTeacherById/{id}")
-    public Integer deleteXcTeacherById(@PathVariable("id") String id)throws Exception;
+    public Integer deleteXcTeacherById(@PathVariable("id") String id) throws Exception;
 }

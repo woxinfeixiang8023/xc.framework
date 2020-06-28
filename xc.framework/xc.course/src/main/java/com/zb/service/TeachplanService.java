@@ -1,5 +1,6 @@
 package com.zb.service;
 
+import com.zb.form.GetTeachplanListByMapForm;
 import com.zb.form.TeachplanForm;
 import com.zb.pojo.Teachplan;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  * @Version V1.0
  */
 public interface TeachplanService {
-    public List<Teachplan> getTeachplanListByMap(String courseId, String grade, String parentId);
+    public List<Teachplan> getTeachplanListByMap(GetTeachplanListByMapForm getTeachplanListByMapForm);
 
     public TeachplanForm getTeachplanFormByCourseId(String courseId);
 

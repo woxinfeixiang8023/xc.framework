@@ -2,6 +2,7 @@ package com.zb.service;
 
 import com.rabbitmq.client.Channel;
 import com.zb.dto.Page;
+import com.zb.form.SearchCoursePubFrom;
 import com.zb.pojo.CoursePub;
 import com.zb.util.PageUtil;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @Version V1.0
  */
 public interface CoursePubService {
-    public PageUtil<CoursePub> searchCoursePub(String id, String name, String mt, String st, String grade, Integer isHot, Integer isNew, Integer isRec, Integer isTop, Integer index, Integer size) throws Exception;
+    public PageUtil<CoursePub> searchCoursePub(SearchCoursePubFrom searchCoursePubFrom) throws Exception;
 
     public void coursePubToRedis();
 

@@ -41,10 +41,10 @@ public class CategoryController {
         return DtoUtil.returnSuccess("ok", categoryList);
     }
 
-    @GetMapping(value = "/getcontentList/{categoryId}")
+    @GetMapping(value = "/getcontentList/{id}")
     @ApiOperation(value = "查询轮播图地址", notes = "根据category_id查询轮播图地址")
-    @ApiImplicitParam(name = "categoryId", value = "内容类目ID", required = true, dataType = "int", paramType = "path")
-    public Dto getcontentList(@PathVariable("categoryId") Integer id) {
+    @ApiImplicitParam(name = "id", value = "内容类目ID", required = true, dataType = "int", paramType = "path")
+    public Dto getcontentList(@PathVariable("id") Integer id) {
         //程序内部发起的http请求， 调用ngix的执行读的操作的接口
         String myurl = "http://localhost:9000/readcontent?id=" + id;
         String result = restTemplate.getForObject(myurl, String.class);
