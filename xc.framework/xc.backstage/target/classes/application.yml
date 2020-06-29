@@ -1,0 +1,38 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: backstageServer
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xc_user
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+    password: ok
+    port: 6379
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  mvc:
+    view:
+      suffix: .html
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:ok@localhost:7001/eureka/
+qiniu:
+  accessKey: bj6DQHlj_AbKxpwA6YJe-V8eg8FZZDUSjtqstHS9
+  secretKey: PHtH-tj46I1ATvWkR9i-PmuqP8Bwg7L1WEhYREn6
+  bucket: xc-media
+  path: http://qbhns1iag.bkt.clouddn.com/
+myes:
+  host: 127.0.0.1:9200
