@@ -34,4 +34,17 @@ public interface CoursePubService {
     public int lockCourseStock(String courseId, String uid);
 
     public void recoverOrderMessage(Map<String, Object> param, Message message, Channel channel);
+
+    public CoursePub getCoursePubById(String id);
+
+    public List<CoursePub> getCoursePubListByMap(Map<String, Object> param);
+
+    public Integer getCoursePubCountByMap(Map<String, Object> param);
+
+    public Integer insertCoursePub(CoursePub coursePub);
+
+    public Integer updateCoursePub(CoursePub coursePub);
+
+    public Integer delCoursePubById(String id);
+
 }

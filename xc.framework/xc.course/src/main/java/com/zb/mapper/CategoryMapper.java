@@ -20,5 +20,6 @@ public interface CategoryMapper {
 
     public Integer updateCategory(Category category) throws Exception;
 
+    public Integer delCategoryById(@Param(value = "id") String id) throws Exception;
 
 }

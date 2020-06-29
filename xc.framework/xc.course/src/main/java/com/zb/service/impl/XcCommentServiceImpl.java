@@ -97,4 +97,34 @@ public class XcCommentServiceImpl implements XcCommentService {
         return xcComment;
     }
 
+    @Override
+    public XcComment getXcCommentById(Long id) {
+        try {
+            return xcCommentMapper.getXcCommentById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateXcComment(XcComment xcComment) {
+        try {
+            return xcCommentMapper.updateXcComment(xcComment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delXcCommentById(Long id) {
+        try {
+            return xcCommentMapper.delXcCommentById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -10,15 +10,17 @@ import java.util.Map;
 @Mapper
 public interface TeachplanMediaMapper {
 
-	public TeachplanMedia getTeachplanMediaByTeachplanId(@Param(value = "teachplanId") String teachplanId)throws Exception;
+    public TeachplanMedia getTeachplanMediaByTeachplanId(@Param(value = "teachplanId") String teachplanId) throws Exception;
 
-	public List<TeachplanMedia>	getTeachplanMediaListByMap(Map<String,Object> param)throws Exception;
+    public List<TeachplanMedia> getTeachplanMediaListByMap(Map<String, Object> param) throws Exception;
 
-	public Integer getTeachplanMediaCountByMap(Map<String,Object> param)throws Exception;
+    public Integer getTeachplanMediaCountByMap(Map<String, Object> param) throws Exception;
 
-	public Integer insertTeachplanMedia(TeachplanMedia teachplanMedia)throws Exception;
+    public Integer insertTeachplanMedia(TeachplanMedia teachplanMedia) throws Exception;
 
-	public Integer updateTeachplanMedia(TeachplanMedia teachplanMedia)throws Exception;
+    public Integer updateTeachplanMedia(TeachplanMedia teachplanMedia) throws Exception;
+
+    public TeachplanMedia delTeachplanMediaById(@Param(value = "teachplanId") String teachplanId) throws Exception;
 
 
 }

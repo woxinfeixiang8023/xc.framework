@@ -110,4 +110,55 @@ public class TeachplanServiceImpl implements TeachplanService {
         }
         return null;
     }
+
+    @Override
+    public Teachplan getTeachplanByCourseId(String courseId) {
+        try {
+            return teachplanMapper.getTeachplanByCourseId(courseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Override
+    public Integer getTeachplanCountByMap(Map<String, Object> param) {
+        try {
+            return teachplanMapper.getTeachplanCountByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertTeachplan(Teachplan teachplan) {
+        try {
+            return teachplanMapper.insertTeachplan(teachplan);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateTeachplan(Teachplan teachplan) {
+        try {
+            return teachplanMapper.updateTeachplan(teachplan);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delTeachplanByCourseId(String id) {
+        try {
+            return teachplanMapper.delTeachplanByCourseId(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

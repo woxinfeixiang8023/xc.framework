@@ -412,5 +412,65 @@ public class CoursePubServiceImpl implements CoursePubService {
         }
     }
 
+    @Override
+    public CoursePub getCoursePubById(String id) {
+        try {
+            return coursePubMapper.getCoursePubById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CoursePub> getCoursePubListByMap(Map<String, Object> param) {
+        try {
+            return coursePubMapper.getCoursePubListByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getCoursePubCountByMap(Map<String, Object> param) {
+        try {
+            return coursePubMapper.getCoursePubCountByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertCoursePub(CoursePub coursePub) {
+        try {
+            return coursePubMapper.insertCoursePub(coursePub);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateCoursePub(CoursePub coursePub) {
+        try {
+            return coursePubMapper.updateCoursePub(coursePub);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delCoursePubById(String id) {
+        try {
+            return coursePubMapper.delCoursePubById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

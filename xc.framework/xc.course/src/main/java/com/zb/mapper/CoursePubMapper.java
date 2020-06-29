@@ -20,5 +20,7 @@ public interface CoursePubMapper {
 
     public Integer updateCoursePub(CoursePub coursePub) throws Exception;
 
+    public Integer delCoursePubById(@Param(value = "id") String id) throws Exception;
+
     public List<CoursePub> importData();
 }

@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +49,19 @@ public class XcCommentController {
         return DtoUtil.returnSuccess("getXcCommentScore", xcCommentService.getXcCommentScore(courseId));
     }
 
+    @GetMapping(value = "/getXcCommentById/{id}")
+    public XcComment getXcCommentById(@PathVariable("id") Long id) {
+        return xcCommentService.getXcCommentById(id);
+    }
+
+    @PostMapping(value = "/updateXcComment")
+    public Integer updateXcComment(@RequestBody XcComment xcComment) {
+        return xcCommentService.updateXcComment(xcComment);
+    }
+
+    @DeleteMapping(value = "/delXcCommentById/{id}")
+    public Integer delXcCommentById(@PathVariable("id") Long id) {
+        return xcCommentService.delXcCommentById(id);
+    }
 
 }

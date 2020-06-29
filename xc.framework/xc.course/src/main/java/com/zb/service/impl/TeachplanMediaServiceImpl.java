@@ -9,6 +9,9 @@ import com.zb.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author XiaChuanKe
  * @Description TODO
@@ -36,6 +39,56 @@ public class TeachplanMediaServiceImpl implements TeachplanMediaService {
                 redisUtil.set(key, JSON.toJSONString(teachplanMedia));
             }
             return teachplanMedia;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<TeachplanMedia> getTeachplanMediaListByMap(Map<String, Object> param) {
+        try {
+            return teachplanMediaMapper.getTeachplanMediaListByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getTeachplanMediaCountByMap(Map<String, Object> param) {
+        try {
+            return teachplanMediaMapper.getTeachplanMediaCountByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertTeachplanMedia(TeachplanMedia teachplanMedia) {
+        try {
+            return teachplanMediaMapper.insertTeachplanMedia(teachplanMedia);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateTeachplanMedia(TeachplanMedia teachplanMedia) {
+        try {
+            return teachplanMediaMapper.updateTeachplanMedia(teachplanMedia);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public TeachplanMedia delTeachplanMediaById(String teachplanId) {
+        try {
+            return teachplanMediaMapper.delTeachplanMediaById(teachplanId);
         } catch (Exception e) {
             e.printStackTrace();
         }

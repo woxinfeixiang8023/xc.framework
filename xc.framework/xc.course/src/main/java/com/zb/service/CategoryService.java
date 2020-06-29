@@ -15,4 +15,18 @@ import java.util.Map;
 public interface CategoryService {
     public List<Category> getCategoryListByMap(String parentId);
 
+
+    public Category getCategoryById(String id);
+
+    public List<Category> getCategoryListByMap(Map<String, Object> param);
+
+    public Integer getCategoryCountByMap(Map<String, Object> param);
+
+    public Integer insertCategory(Category category);
+
+    public Integer updateCategory(Category category);
+
+    public Integer delCategoryById(String id);
+
+
 }

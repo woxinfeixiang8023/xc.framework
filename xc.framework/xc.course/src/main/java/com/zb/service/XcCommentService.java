@@ -19,4 +19,10 @@ public interface XcCommentService {
 
     public XcComment getXcCommentScore(String courseId);
 
+    public XcComment getXcCommentById(Long id);
+
+    public Integer updateXcComment(XcComment xcComment);
+
+    public Integer delXcCommentById(Long id);
+
 }

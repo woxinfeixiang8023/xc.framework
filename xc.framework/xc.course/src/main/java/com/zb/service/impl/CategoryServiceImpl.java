@@ -54,4 +54,64 @@ public class CategoryServiceImpl implements CategoryService {
         return null;
     }
 
+    @Override
+    public Category getCategoryById(String id) {
+        try {
+            return categoryMapper.getCategoryById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Category> getCategoryListByMap(Map<String, Object> param) {
+        try {
+            return categoryMapper.getCategoryListByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getCategoryCountByMap(Map<String, Object> param) {
+        try {
+            return categoryMapper.getCategoryCountByMap(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertCategory(Category category) {
+        try {
+            return categoryMapper.insertCategory(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateCategory(Category category) {
+        try {
+            return categoryMapper.updateCategory(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delCategoryById(String id) {
+        try {
+            return categoryMapper.delCategoryById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

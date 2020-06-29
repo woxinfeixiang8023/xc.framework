@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author XiaChuanKe
@@ -92,6 +93,36 @@ public class CoursePubController {
     @PostMapping(value = "/qgWhile/{courseId}/{token}")
     public Dto qgWhile(@PathVariable("courseId") String courseId, @PathVariable("token") String token) {
         return DtoUtil.returnSuccess("qgWhile", coursePubService.qgWhile(courseId, token));
+    }
+
+    @GetMapping(value = "/getCoursePubById/{id}")
+    public CoursePub getCoursePubById(@PathVariable("id") String id) {
+        return coursePubService.getCoursePubById(id);
+    }
+
+    @PostMapping(value = "/getCoursePubListByMap")
+    public List<CoursePub> getCoursePubListByMap(@RequestParam Map<String, Object> param) {
+        return coursePubService.getCoursePubListByMap(param);
+    }
+
+    @PostMapping(value = "/getCoursePubCountByMap")
+    public Integer getCoursePubCountByMap(@RequestParam Map<String, Object> param) {
+        return coursePubService.getCoursePubCountByMap(param);
+    }
+
+    @PostMapping(value = "/insertCoursePub")
+    public Integer insertCoursePub(@RequestBody CoursePub coursePub) {
+        return coursePubService.insertCoursePub(coursePub);
+    }
+
+    @PostMapping(value = "/updateCoursePub")
+    public Integer updateCoursePub(@RequestBody CoursePub coursePub) {
+        return coursePubService.updateCoursePub(coursePub);
+    }
+
+    @DeleteMapping(value = "/delCoursePubById/{id}")
+    public Integer delCoursePubById(@PathVariable("id") String id) {
+        return coursePubService.delCoursePubById(id);
     }
 
 }

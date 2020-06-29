@@ -10,13 +10,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author XiaChuanKe
@@ -53,4 +51,35 @@ public class CategoryController {
         System.out.println("远程调用nginx中的接口程序:" + contentList);
         return DtoUtil.returnSuccess("contentOk", contentList);
     }
+
+    @GetMapping(value = "/getCategoryById/{id}")
+    public Category getCategoryById(@PathVariable("id") String id) {
+        return categoryService.getCategoryById(id);
+    }
+
+    @PostMapping(value = "/getCategoryListByMap")
+    public List<Category> getCategoryListByMap(@RequestParam Map<String, Object> param) {
+        return categoryService.getCategoryListByMap(param);
+    }
+
+    @PostMapping(value = "/getCategoryCountByMap")
+    public Integer getCategoryCountByMap(@RequestParam Map<String, Object> param) {
+        return categoryService.getCategoryCountByMap(param);
+    }
+
+    @PostMapping(value = "/insertCategory")
+    public Integer insertCategory(@RequestBody Category category) {
+        return categoryService.insertCategory(category);
+    }
+
+    @PostMapping(value = "/updateCategory")
+    public Integer updateCategory(@RequestBody Category category) {
+        return categoryService.updateCategory(category);
+    }
+
+    @DeleteMapping(value = "/delCategoryById/{id}")
+    public Integer delCategoryById(@PathVariable("id") String id) {
+        return categoryService.delCategoryById(id);
+    }
+
 }
