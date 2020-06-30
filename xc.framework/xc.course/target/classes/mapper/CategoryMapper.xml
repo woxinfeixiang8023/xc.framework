@@ -55,8 +55,8 @@
             </if>
         </trim>
         ORDER BY orderby
-        <if test="beginPos != null and pageSize != null ">
-            limit #{beginPos},#{pageSize}
+        <if test="start != null and size != null ">
+            limit #{start},#{size}
         </if>
     </select>
 
@@ -127,4 +127,9 @@
             </if>
         </trim>
     </update>
+    <delete id="delCategoryById">
+        delete
+        from xc_course.category
+        where id = #{id}
+    </delete>
 </mapper>

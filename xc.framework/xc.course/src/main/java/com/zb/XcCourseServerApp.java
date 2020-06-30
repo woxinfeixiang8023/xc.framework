@@ -1,6 +1,7 @@
 package com.zb;
 
 import com.zb.pojo.CoursePub;
+import com.zb.service.CoursePubCartService;
 import com.zb.service.CoursePubService;
 import com.zb.tools.CanalTools;
 import com.zb.tools.EsTools;
@@ -30,10 +31,11 @@ public class XcCourseServerApp {
         /*EsTools esTools = context.getBean(EsTools.class);
         esTools.addIndex();
         esTools.importData();*/
+        /*CoursePubCartService coursePubCartService = context.getBean(CoursePubCartService.class);
+        coursePubCartService.dbToRedisCart();*/
 
         CanalTools bean = context.getBean(CanalTools.class);
         bean.execution();
-
 
 
     }

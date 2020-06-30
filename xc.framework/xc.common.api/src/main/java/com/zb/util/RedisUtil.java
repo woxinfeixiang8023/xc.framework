@@ -315,6 +315,17 @@ public class RedisUtil {
         return redisTemplate.opsForHash().increment(key, item, -by);
     }
 
+    /**
+     * 根据key获取所有hash元素
+     *
+     * @param key
+     * @return
+     */
+    public Map<Object, Object> getAll(String key) {
+        Map<Object, Object> cartData = redisTemplate.opsForHash().entries(key);
+        return cartData;
+    }
+
     //============================set=============================
 
     /**

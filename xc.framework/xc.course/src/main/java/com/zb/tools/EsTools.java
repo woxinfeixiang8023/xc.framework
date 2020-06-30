@@ -116,6 +116,9 @@ public class EsTools {
                 "\t\t},\n" +
                 "\t\t\"isDiscount\": {\n" +
                 "\t\t\t\"type\": \"keyword\"\n" +
+                "\t\t},\n" +
+                "\t\t\"teacherId\": {\n" +
+                "\t\t\t\"type\": \"keyword\"\n" +
                 "\t\t}\n" +
                 "\t}\n" +
                 "}", XContentType.JSON);
@@ -157,7 +160,7 @@ public class EsTools {
                 data.put("stuUsers", coursePub.getStuUsers());
                 data.put("store", coursePub.getStore());
                 data.put("isDiscount", coursePub.getIsDiscount());
-
+                data.put("teacherId", coursePub.getTeacherId());
                 //创建请求对象
                 IndexRequest indexRequest = new IndexRequest("xc_course", "doc", coursePub.getId() + "");
                 //绑定数据

@@ -54,6 +54,8 @@ public class CoursePub implements Serializable {
     private Integer isDiscount;
     //教师id
     private String teacherId;
+    //表示购物车的数量
+    private Integer num;
 
     //get set 方法
     public void setId(String id) {
@@ -246,5 +248,13 @@ public class CoursePub implements Serializable {
 
     public void setTeacherId(String teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }

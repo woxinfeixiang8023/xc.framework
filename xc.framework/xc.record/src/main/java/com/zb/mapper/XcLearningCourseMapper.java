@@ -20,5 +20,6 @@ public interface XcLearningCourseMapper {
 
     public Integer updateXcLearningCourse(XcLearningCourse xcLearningCourse) throws Exception;
 
+    public Integer delXcLearningCourseById(@Param(value = "id") String id) throws Exception;
 
 }

@@ -1,22 +1,21 @@
 package com.zb.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.zb.feign.CoursePubFeignClient;
+import com.zb.feign.XcUserFeignClient;
 import com.zb.mapper.XcLearningCourseMapper;
 import com.zb.mapper.XcTaskHisMapper;
-import com.zb.pojo.XcLearningCourse;
-import com.zb.pojo.XcTask;
-import com.zb.pojo.XcTaskHis;
+import com.zb.pojo.*;
 import com.zb.service.XcLearningCourseRecordService;
 import com.zb.util.IdWorker;
+import com.zb.util.PageUtil;
+import com.zb.util.RedisUtil;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author XiaChuanKe
@@ -31,6 +30,10 @@ public class XcLearningCourseRecordServiceImpl implements XcLearningCourseRecord
     private XcLearningCourseMapper xcLearningCourseMapper;
     @Autowired(required = false)
     private XcTaskHisMapper xcTaskHisMapper;
+    @Autowired
+    private XcUserFeignClient xcUserFeignClient;
+    @Autowired
+    private CoursePubFeignClient coursePubFeignClient;
     @Autowired
     private AmqpTemplate amqpTemplate;
 
@@ -104,7 +107,63 @@ public class XcLearningCourseRecordServiceImpl implements XcLearningCourseRecord
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
+
+    /*@Override
+    public PageUtil<CoursePub> getXcLearningCourseListByMap(Integer index, Integer size, String token) {
+        try {
+            XcUser currentUser = xcUserFeignClient.getCurrentUser(token);
+            Map<String, Object> param = new HashMap<>();
+            param.put("userId", currentUser.getId());
+            param.put("start", (index - 1) * size);
+            param.put("size", size);
+            List<XcLearningCourse> xcLearningCourseList = xcLearningCourseMapper.getXcLearningCourseListByMap(param);
+            Integer count = xcLearningCourseMapper.getXcLearningCourseCountByMap(param);
+            List<CoursePub> data = new ArrayList<>();
+            for (XcLearningCourse xcLearningCourse : xcLearningCourseList) {
+                CoursePub coursePubById = coursePubFeignClient.getCoursePubById(xcLearningCourse.getCourseId());
+                data.add(coursePubById);
+            }
+            PageUtil<CoursePub> page = new PageUtil<>();
+            page.setIndex(index);
+            page.setSize(size);
+            page.setData(data);
+            page.setCount(count);
+            return page;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertXcLearningCourse(XcLearningCourse xcLearningCourse) {
+        try {
+            return xcLearningCourseMapper.insertXcLearningCourse(xcLearningCourse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateXcLearningCourse(XcLearningCourse xcLearningCourse) {
+        try {
+            return xcLearningCourseMapper.updateXcLearningCourse(xcLearningCourse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delXcLearningCourseById(String id) {
+        try {
+            return xcLearningCourseMapper.delXcLearningCourseById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
 }

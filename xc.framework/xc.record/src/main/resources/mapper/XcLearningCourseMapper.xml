@@ -64,8 +64,8 @@
                 and status=#{status}
             </if>
         </trim>
-        <if test="beginPos != null and pageSize != null ">
-            limit #{beginPos},#{pageSize}
+        <if test="start != null and size != null ">
+            limit #{start},#{size}
         </if>
     </select>
 
@@ -152,4 +152,9 @@
             </if>
         </trim>
     </update>
+    <delete id="delXcLearningCourseById">
+        delete
+        from xc_learning.xc_learning_course
+        where id = #{id}
+    </delete>
 </mapper>

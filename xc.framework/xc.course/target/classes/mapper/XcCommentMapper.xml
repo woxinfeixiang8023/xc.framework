@@ -113,6 +113,11 @@
             </if>
         </trim>
     </update>
+    <delete id="delXcCommentById">
+        delete
+        from xc_course.xc_comment
+        where id = #{id}
+    </delete>
     <select id="getXcCommentCourseId" resultType="com.zb.pojo.XcComment">
         SELECT courseId AS courseId
         FROM `xc_course`.`xc_comment`

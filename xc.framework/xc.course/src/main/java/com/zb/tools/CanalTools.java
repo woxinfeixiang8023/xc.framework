@@ -5,6 +5,7 @@ import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.common.utils.AddressUtils;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
+import com.zb.util.RedisUtil;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -86,23 +87,24 @@ public class CanalTools {
             for (RowData rowData : rowChage.getRowDatasList()) {
                 if (eventType == EventType.DELETE) {
 //                    printColumn(rowData.getBeforeColumnsList());
-                    if (entry.getHeader().getTableName().equals("course_pub")) {
+                    if (entry.getHeader().getSchemaName().equals("xc_course") && entry.getHeader().getTableName().equals("course_pub")) {
                         deleteESData(rowData.getBeforeColumnsList());
                     }
                 } else if (eventType == EventType.INSERT) {
 //                    printColumn(rowData.getAfterColumnsList());
-                    if (entry.getHeader().getTableName().equals("course_pub")) {
+                    if (entry.getHeader().getSchemaName().equals("xc_course") && entry.getHeader().getTableName().equals("course_pub")) {
                         insertESData(rowData.getAfterColumnsList());
                     }
 
                 } else {
-                    if (entry.getHeader().getTableName().equals("xc_content")) {
+                    System.out.println();
+                    if (entry.getHeader().getSchemaName().equals("xc_course") && entry.getHeader().getTableName().equals("xc_content")) {
                         System.out.println("修改轮播图");
                         updateRedisData(rowData.getAfterColumnsList());
                     }
-                    if (entry.getHeader().getTableName().equals("course_pub")) {
-                        System.out.println("修改es");
+                    if (entry.getHeader().getSchemaName().equals("xc_course") && entry.getHeader().getTableName().equals("course_pub")) {
                         updateESData(rowData.getAfterColumnsList());
+                        updateCourseData(rowData.getAfterColumnsList());
                     }
                 }
             }
@@ -133,7 +135,7 @@ public class CanalTools {
 
 
     private void deleteESData(List<Column> columns) {
-        System.out.println("同步刪除数据");
+        System.out.println("同步刪除Es数据");
         try {
             String id = "";
             for (Column column : columns) {
@@ -152,7 +154,7 @@ public class CanalTools {
     }
 
     private void insertESData(List<Column> columns) {
-        System.out.println("同步添加数据");
+        System.out.println("同步添加Es数据");
         try {
             Map<String, Object> data = new HashMap<>();
             String id = "";
@@ -161,7 +163,7 @@ public class CanalTools {
                     id = column.getValue();
                     continue;
                 }
-                data.put(column.getName().toLowerCase(), column.getValue());
+                data.put(column.getName(), column.getValue());
             }
             //创建请求对象
             IndexRequest indexRequest = new IndexRequest("xc_course", "doc", id);
@@ -177,7 +179,7 @@ public class CanalTools {
     }
 
     private void updateESData(List<Column> columns) {
-        System.out.println("同步修改数据");
+        System.out.println("同步修改Es数据");
         try {
             Map<String, Object> data = new HashMap<>();
             String id = "";
@@ -186,13 +188,34 @@ public class CanalTools {
                     id = column.getValue();
                     continue;
                 }
-                data.put(column.getName().toLowerCase(), column.getValue());
+                data.put(column.getName(), column.getValue());
             }
             UpdateRequest updateRequest = new UpdateRequest("xc_course", "doc", id);
             updateRequest.doc(data);
             UpdateResponse updateResponse = client.update(updateRequest);
             DocWriteResponse.Result result = updateResponse.getResult();
             System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private void updateCourseData(List<Column> columns) {
+        System.out.println("同步修改课程数据");
+        try {
+            Map<String, Object> data = new HashMap<>();
+            String id = "";
+            for (Column column : columns) {
+                if (column.getName().equals("id")) {
+                    id = column.getValue();
+                }
+                data.put(column.getName(), column.getValue());
+            }
+            boolean hmset = redisUtil.hmset("goods:" + id, data);
+            System.out.println(hmset);
         } catch (Exception e) {
             e.printStackTrace();
         }

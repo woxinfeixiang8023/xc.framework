@@ -80,8 +80,8 @@
             </if>
         </trim>
         ORDER BY orderby ASC
-        <if test="beginPos != null and pageSize != null ">
-            limit #{beginPos},#{pageSize}
+        <if test="start != null and size != null ">
+            limit #{start},#{size}
         </if>
     </select>
 
@@ -192,4 +192,9 @@
             </if>
         </trim>
     </update>
+    <delete id="delTeachplanByCourseId">
+        delete
+        from xc_course.teachplan
+        where id = #{id}
+    </delete>
 </mapper>

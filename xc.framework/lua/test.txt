@@ -1,3 +1,7 @@
+
+
+=========================================================================================
+
 登录
 POST   localhost:8001/user/getXcUserListByMap?username=teacher10&password=123456789
 
@@ -18,6 +22,57 @@ valid           204002
 
 支付(查询信息)
 POST http://localhost:8001/order/findOrderPay?token=token-PC-410a4d044151a691448419d8bf272704-20200618152525-717896
+
+
+=========================================================================================
+查询es字段
+GET http://localhost:9200/xc_course/doc/_mapping
+查询es数据
+POST http://localhost:9200/xc_course/doc/_search
+删除es数据
+DELETE http://localhost:9200/xc_course
+=========================================================================================
+收藏（购物车）
+添加
+POST http://localhost:9001/addCart/46/297e7c7c62b888f00162b8a7dec20000/1
+参数：
+uid	        46                                 用户id
+goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
+num	        1                                  商品数量
+
+查询
+POST http://localhost:9001/getCartAllItem/46
+参数：
+uid	        46                                 用户id
+
+修改数量：
+POST http://localhost:9001/updateNum/46/297e7c7c62b888f00162b8a7dec20000/1/add
+参数：
+uid	        46                                 用户id
+goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
+num	        1                                  商品数量
+op          add/unadd                          操作
+
+删除购物车
+POST http://localhost:9001/delItem/46/297e7c7c62b888f00162b8a7dec20000
+参数：
+uid	        46                                 用户id
+goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
+
+=========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
