@@ -24,7 +24,7 @@ public class XcOrdersController {
     private XcUserFeignClient xcUserFeignClient;
 
     @PostMapping(value = "/insertXcOrders")
-    public Integer insertXcOrders(XcOrders xcOrders) {
+    public Integer insertXcOrders(@RequestBody XcOrders xcOrders) {
         xcOrders.setId(Long.parseLong(IdWorker.getId()));
         xcOrders.setOrderNumber(IdWorker.getId());
         XcUser currentUser = xcUserFeignClient.getCurrentUser(xcOrders.getToken());
@@ -34,18 +34,18 @@ public class XcOrdersController {
         return xcOrdersService.insertXcOrders(xcOrders);
     }
 
-    @PostMapping(value = "/findOrderPay")
-    public XcOrders findOrderPay(@RequestParam String token) {
+    @PostMapping(value = "/findOrderPay/{token}")
+    public XcOrders findOrderPay(@PathVariable("token") String token) {
         return xcOrdersService.findOrderPay(token);
     }
 
     @PostMapping(value = "/updateXcOrders")
-    public Integer updateXcOrders(XcOrders xcOrders) {
+    public Integer updateXcOrders(@RequestBody XcOrders xcOrders) {
         return xcOrdersService.updateXcOrders(xcOrders);
     }
 
-    @PostMapping(value = "/getXcOrderByOrderNo")
-    public XcOrders getXcOrderByOrderNo(String orderNo) {
+    @PostMapping(value = "/getXcOrderByOrderNo/{orderNo}")
+    public XcOrders getXcOrderByOrderNo(@PathVariable("orderNo") String orderNo) {
         return xcOrdersService.getXcOrderByOrderNo(orderNo);
     }
 

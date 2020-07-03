@@ -110,7 +110,7 @@ public class XcLearningCourseRecordServiceImpl implements XcLearningCourseRecord
         return null;
     }
 
-    /*@Override
+    @Override
     public PageUtil<CoursePub> getXcLearningCourseListByMap(Integer index, Integer size, String token) {
         try {
             XcUser currentUser = xcUserFeignClient.getCurrentUser(token);
@@ -165,5 +165,5 @@ public class XcLearningCourseRecordServiceImpl implements XcLearningCourseRecord
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
 }

@@ -21,13 +21,13 @@ public interface XcLearningCourseRecordService {
 
     public XcLearningCourse getXcLearningCourseRecordByUserAndCourse(Map<String, Object> param);
 
-    /*public PageUtil<CoursePub> getXcLearningCourseListByMap(Integer index, Integer size, String token);
+    public PageUtil<CoursePub> getXcLearningCourseListByMap(Integer index, Integer size, String token);
 
     public Integer insertXcLearningCourse(XcLearningCourse xcLearningCourse);
 
     public Integer updateXcLearningCourse(XcLearningCourse xcLearningCourse);
 
-    public Integer delXcLearningCourseById(String id);*/
+    public Integer delXcLearningCourseById(String id);
 
 
 }

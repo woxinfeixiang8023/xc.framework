@@ -35,7 +35,7 @@ public class CoursePubController {
     @Autowired(required = false)
     private RestTemplate restTemplate;
 
-    @ApiOperation(value = "查询分类", notes = "根据父级信息查询分类")
+    @ApiOperation(value = "查询分类", notes = "根据父级信息查询分类（es）")
     @ApiImplicitParam(name = "searchCoursePub", value = "分类查询实体", required = true, dataType = "SearchCoursePubFrom")
     @PostMapping(value = "/searchCoursePub")
     public Dto searchCoursePub(@RequestBody SearchCoursePubFrom searchCoursePubFrom) throws Exception {

@@ -19,12 +19,12 @@ public class XcLearningCourseController {
     @Autowired
     private XcLearningCourseRecordService xcLearningCourseRecordService;
 
-    /*@PostMapping(value = "/getXcLearningCourseListByMap/{index}/{size}/{token}")
+    @PostMapping(value = "/getXcLearningCourseListByMap/{index}/{size}/{token}")
     public PageUtil<CoursePub> getXcLearningCourseListByMap(@PathVariable("index") Integer index, @PathVariable("size") Integer size, @PathVariable("token") String token) {
         return xcLearningCourseRecordService.getXcLearningCourseListByMap(index, size, token);
-    }*/
+    }
 
-    /*@PostMapping(value = "/insertXcLearningCourse")
+    @PostMapping(value = "/insertXcLearningCourse")
     public Integer insertXcLearningCourse(@RequestBody XcLearningCourse xcLearningCourse) {
         return xcLearningCourseRecordService.insertXcLearningCourse(xcLearningCourse);
     }
@@ -37,6 +37,6 @@ public class XcLearningCourseController {
     @DeleteMapping(value = "/delXcLearningCourseById/{id}")
     public Integer delXcLearningCourseById(@PathVariable("id") String id) {
         return xcLearningCourseRecordService.delXcLearningCourseById(id);
-    }*/
+    }
 
 }

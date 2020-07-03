@@ -90,7 +90,7 @@
                 #{commentContext},
                 #{score},
                 #{userId},
-                #{createDate})
+                now())
     </insert>
 
     <update id="updateXcComment" parameterType="com.zb.pojo.XcComment">

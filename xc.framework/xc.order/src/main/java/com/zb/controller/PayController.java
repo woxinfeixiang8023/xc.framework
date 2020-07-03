@@ -130,14 +130,14 @@ public class PayController {
             XcOrders xcOrderByOrderNo = xcOrdersService.getXcOrderByOrderNo(out_trade_no);
             Map<String, Object> param = new HashMap<>();
             param.put("userId", xcOrderByOrderNo.getUserId());
-            param.put("itemId", xcOrderByOrderNo.getItemId());
+            param.put("courseId", xcOrderByOrderNo.getItemId());
             param.put("status", 2);
             //修改临时库存表的状态
             Integer integer = xcCourseTempStoreFeignClient.updateXcCourseTempStore(param);
             //请在这里加上商户的业务逻辑程序代码
             //该页面可做页面美工编辑
             response.getWriter().println("success");
-            response.sendRedirect("http://www.baidu.com");
+            response.sendRedirect("http://localhost:9000/article?courseId=4028e58161bd3b380161bd3bcd2f0000");
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
             //////////////////////////////////////////////////////////////////////////////////////////
         } else {

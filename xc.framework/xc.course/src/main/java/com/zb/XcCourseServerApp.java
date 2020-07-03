@@ -31,8 +31,8 @@ public class XcCourseServerApp {
         /*EsTools esTools = context.getBean(EsTools.class);
         esTools.addIndex();
         esTools.importData();*/
-        /*CoursePubCartService coursePubCartService = context.getBean(CoursePubCartService.class);
-        coursePubCartService.dbToRedisCart();*/
+        CoursePubCartService coursePubCartService = context.getBean(CoursePubCartService.class);
+        coursePubCartService.dbToRedisCart();
 
         CanalTools bean = context.getBean(CanalTools.class);
         bean.execution();
