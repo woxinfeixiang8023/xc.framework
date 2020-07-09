@@ -28,6 +28,7 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "课程查询的接口", tags = {"查询课程信息接口"})
+@RequestMapping("/api/course")
 public class CoursePubController {
 
     @Autowired

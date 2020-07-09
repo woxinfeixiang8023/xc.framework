@@ -2,13 +2,13 @@
 查询分类
 
 一级分类：
-GET http://localhost:8001/course/getCategoryList/1
+GET http://localhost:8001/api/course/getCategoryList/1
 
 二级分类：
-GET http://localhost:8001/course/getCategoryList/1-1
+GET http://localhost:8001/api/course/getCategoryList/1-1
 
 查询轮播图
-GET http://localhost:8001/course/getcontentList/1
+GET http://localhost:8001/api/course/getContentList/1
 
 查询es字段
 GET http://localhost:9200/xc_course/doc/_mapping
@@ -18,18 +18,19 @@ POST http://localhost:9200/xc_course/doc/_search
 DELETE http://localhost:9200/xc_course
 
 es查询
-GET http://localhost:8001/course/searchCoursePub
+GET http://localhost:8001/api/course/searchCoursePub
 参数JSON
 {
     "index":1,
     "size":5,
     "mt":"1-3",
     "st":"1-3-2",
-    "isHot":1
+    "isHot":1,
+    "name":"Redis"
 }
 
 首页的热门信息查询
-GET http://localhost:8001/course/getIndexReadList
+GET http://localhost:8001/api/course/getIndexReadList
 {
     "st":"1-3-3"
 }
@@ -43,45 +44,50 @@ GET http://localhost:8001/course/getIndexReadList
 =========================================================================================
 
 登录
-POST   localhost:8001/user/getXcUserListByMap?username=super&password=123456789
+POST     http://localhost:8001/api/user/getXcUserListByMap?username=super&password=123456789
 
 抢购
-POST     http://localhost:8001/course/qg/297e7c7c62b888f00162b8a7dec20000/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200702105206-6aa22f
+POST     http://localhost:8001/api/course/qg/297e7c7c62b888f00162b8a7dec20000/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200709101212-6aa22f
 
 循环抢购
-POST     http://localhost:8001/course/qgWhile/297e7c7c62b888f00162b8a7dec20000/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200702105206-6aa22f
+POST     http://localhost:8001/api/course/qgWhile/297e7c7c62b888f00162b8a7dec20000/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200707143342-6aa22f
 
 提交订单
-POST http://localhost:8001/order/insertXcOrders
+POST http://localhost:8001/api/order/insertXcOrders
 参数:
-token           token-PC-1b3231655cebb7a1f783eddf27d254ca-20200702105206-6aa22f
-itemId          297e7c7c62b888f00162b8a7dec20000
-initialPrice    50
-itemPrice       50
-valid           204002
+{
+    "token":"token-PC-1b3231655cebb7a1f783eddf27d254ca-20200707143342-6aa22f",
+    "itemId":"297e7c7c62b888f00162b8a7dec20000",
+    "initialPrice":50,
+    "itemPrice":50,
+    "valid":204002
+}
+
 
 支付(查询信息)
-POST http://localhost:8001/order/findOrderPay?token=token-PC-410a4d044151a691448419d8bf272704-20200618152525-717896
+POST http://localhost:8001/api/order/findOrderPay/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200702105206-6aa22f
 
 
 =========================================================================================
+查询已购买课程
+POST http://localhost:8001/api/record/getXcLearningCourseListByMap/1/3/token-PC-1b3231655cebb7a1f783eddf27d254ca-20200707143342-6aa22f
 
 =========================================================================================
 收藏（购物车）
 添加
-POST http://localhost:9001/addCart/46/297e7c7c62b888f00162b8a7dec20000/1
+POST http://localhost:8001/api/course/addCart/46/297e7c7c62b888f00162b8a7dec20000/1
 参数：
 uid	        46                                 用户id
 goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
 num	        1                                  商品数量
 
 查询
-POST http://localhost:9001/getCartAllItem/46
+POST http://localhost:8001/api/course/getCartAllItem/46
 参数：
 uid	        46                                 用户id
 
 修改数量：
-POST http://localhost:9001/updateNum/46/297e7c7c62b888f00162b8a7dec20000/1/add
+POST http://localhost:8001/api/course/updateNum/46/297e7c7c62b888f00162b8a7dec20000/1/add
 参数：
 uid	        46                                 用户id
 goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
@@ -89,7 +95,7 @@ num	        1                                  商品数量
 op          add/unadd                          操作
 
 删除购物车
-POST http://localhost:9001/delItem/46/297e7c7c62b888f00162b8a7dec20000
+POST http://localhost:8001/api/course/delItem/46/297e7c7c62b888f00162b8a7dec20000
 参数：
 uid	        46                                 用户id
 goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
@@ -101,26 +107,26 @@ goodsId   	297e7c7c62b888f00162b8a7dec20000   商品id
 
 =========================================================================================
 查询目录
-查询一级目录
-POST http://localhost:8001/course/getTeachplanListByMap
+查询二级目录
+POST http://localhost:8001/api/course/getTeachplanListByMap
 {
     "courseId":"4028e58161bd3b380161bd3bcd2f0000",
     "grade":2
 }
-查询二级目录
-POST http://localhost:8001/course/getTeachplanListByMap
+查询三级目录
+POST http://localhost:8001/api/course/getTeachplanListByMap
 {
     "parentId":"4028e58161bd3b380161bd3e47da0003",
     "grade":3
 }
 =========================================================================================
 查询课程媒体资源
-GET http://localhost:8001/course/getTeachplanMediaById/4028e58161bd3b380161bd3fe9220008
+GET http://localhost:8001/api/course/getTeachplanMediaById/4028e58161bd3b380161bd3fe9220008
 =========================================================================================
 评论
 
 根据课程id分页组合查询评论
-http://localhost:8001/course/getXcCommentListByMap
+http://localhost:8001/api/course/getXcCommentListByMap
 {
     "index":1,
     "size":3,
@@ -128,10 +134,10 @@ http://localhost:8001/course/getXcCommentListByMap
 }
 
 查询评论分数
-GET http://localhost:8001/course/getXcCommentScore/4028e58161bd3b380161bd3bcd2f0000
+GET http://localhost:8001/api/course/getXcCommentScore/4028e58161bd3b380161bd3bcd2f0000
 
 添加评论
-POST http://localhost:8001/course/insertXcComment
+POST http://localhost:8001/api/course/insertXcComment
 {
     "courseId":"4028e58161bd3b380161bd3bcd2f0000",
     "commentContext":"aaaaaaaaaaaaaaa",
@@ -141,17 +147,140 @@ POST http://localhost:8001/course/insertXcComment
 
 
 
+CategoryServiceImpl.java(getCategoryListByMap)查询分类  6.9
+CategoryController.java(getCategoryList)查询分类        6.9
+XcCourseRead.lua                                       6.9
+XcCourseLua.lua                                         6.10
+CategoryController.java(getContentList)查询轮播图地址      6.10
+CanalTools.java(updateRedisData)                        6.10
+learing-index.js                                        6.10
+
+isRecommendRead.lua                                     6.12
+isRecRead.lua                                           6.12
+stRead.lua                                              6.12
+CoursePubController.java(getIndexReadList)首页信息查询    6.12
+
+EsTools.java(addIndex)                                  6.15
+EsTools.java(importData)                                6.15
+CoursePubServiceImpl.java(searchCoursePub)es查询          6.15
+CoursePubController.java(searchCoursePub)es查询           6.16
+CanalTools.java(deleteESData)                           6.16
+CanalTools.java(insertESData)                           6.16
+CanalTools.java(updateESData)                           6.16
+
+TeachplanServiceImpl.java(getTeachplanFormByCourseId)查询课程详细信息6.17
+TeachplanController.java(getTeachplanFormByCourseId)                6.17
+article.lua                                                         6.17
+TeachplanServiceImpl.java(getTeachplanListByMap)查询目录            6.18
+TeachplanController.java(getTeachplanListByMap)                     6.18
+learing-article.html                                                6.18
+
+TeachplanMediaServiceImpl.java(getTeachplanMediaById)查询课程媒体资源   6.22
+TeachplanMediaController.java(getTeachplanMediaById)                6.22
+
+CoursePubServiceImpl.java(coursePubToRedis)                         6.23
+CoursePubServiceImpl.java(qgCourse)                                 6.23
+CoursePubServiceImpl.java(checkRoomStock)                           6.23
+CoursePubServiceImpl.java(qgWhile)                                  6.23
+CoursePubServiceImpl.java(reviceQg)                                 6.23
+CoursePubServiceImpl.java(lockCourseStock)                          6.23
+CoursePubServiceImpl.java(recoverOrderMessage)                      6.23
+CoursePubController.java(qg)                                        6.23
+CoursePubController.java(qgWhile)                                   6.23
+
+XcOrdersServiceImpl.java(insertXcOrders)                            6.24
+XcOrdersController.java(insertXcOrders)                             6.24
+XcOrdersServiceImpl.java(recoverOrderMessage)                       6.24
+XcOrdersServiceImpl.java(findOrderPay)                              6.25
+XcOrdersController.java(findOrderPay)                               6.25
+PayController.java(myreturn)                                        6.25
+XcOrdersServiceImpl.java(updateXcOrders)                            6.25
+XcCourseTempStoreServiceImpl.java(getXcOrderByOrderNo)              6.25
+XcCourseTempStoreController.java(updateXcCourseTempStore)           6.25
+XcOrdersController.java(updateXcOrders)                             6.25
+
+XcTaskServiceImpl.java(findByUpdateTimeBefore)                      6.29
+XcTaskServiceImpl.java(getTask)                                     6.29
+XcTaskServiceImpl.java(publishTask)                                  6.29
+XcOrderTaskJob.java(send)                                            6.29
+XcLearningCourseRecordServiceImpl.java(getXcLearningCourseRecordByUserAndCourse)6.30
+XcLearningCourseRecordServiceImpl.java(addChooseCourse)                         6.30
+XcTaskMQ.java(reviceChooseCourseTask)                                           6.30
+XcTaskServiceImpl.java(finishTask)                                              6.30
+XcOrderTaskJob.java(reviceTaskSuccess)                                          6.30
+
+XcCommentServiceImpl.java(getScheduledScore)                                    7.1
+XcCommentServiceImpl.java(getXcCommentScore)                                    7.1
+XcCommentController.java(getXcCommentScore)查询评论分数                           7.1
+XcCommentServiceImpl.java(getXcCommentListByMap)                                7.1
+XcCommentServiceImpl.java(insertXcComment)                                      7.1
+XcCommentController.java(getXcCommentListByMap)                                 7.1
+XcCommentController.java(insertXcComment)                                       7.1
 
 
+CoursePubCartServiceImpl.java(dbToRedisCart)                                    7.2
+CoursePubCartServiceImpl.java(addCart)                                      7.2
+CoursePubCartServiceImpl.java(updateNum)                             7.2
+CoursePubCartServiceImpl.java(delItem)                              7.2
+CoursePubCartServiceImpl.java(getCartAllItem)                       7.2
+CoursePubCartController.java(addCart)                               7.2
+CoursePubCartController.java(updateNum)                             7.2
+CoursePubCartController.java(delItem)                               7.2
+CoursePubCartController.java(getCartAllItem)                        7.2
 
+增删改查curd
+CategoryServiceImpl.java(getCategoryListByMap)                      7.3
+CategoryServiceImpl.java(getCategoryCountByMap)
+CategoryServiceImpl.java(insertCategory)
+CategoryServiceImpl.java(updateCategory)
+CategoryServiceImpl.java(delCategoryById)
+CategoryController.java(getCategoryListByMap)
+CategoryController.java(getCategoryCountByMap)
+CategoryController.java(insertCategory)
+CategoryController.java(updateCategory)
+CategoryController.java(delCategoryById)
 
+CoursePubServiceImpl.java(getCoursePubById)
+CoursePubServiceImpl.java(getCoursePubListByMap)
+CoursePubServiceImpl.java(getCoursePubCountByMap)
+CoursePubServiceImpl.java(insertCoursePub)
+CoursePubServiceImpl.java(updateCoursePub)
+CoursePubServiceImpl.java(delCoursePubById)
+CoursePubController.java(getCoursePubById)
+CoursePubController.java(getCoursePubListByMap)
+CoursePubController.java(getCoursePubCountByMap)
+CoursePubController.java(insertCoursePub)
+CoursePubController.java(updateCoursePub)
+CoursePubController.java(delCoursePubById)
 
+TeachplanServiceImpl.java(getTeachplanByCourseId)
+TeachplanServiceImpl.java(getTeachplanCountByMap)
+TeachplanServiceImpl.java(insertTeachplan)
+TeachplanServiceImpl.java(updateTeachplan)
+TeachplanServiceImpl.java(delTeachplanByCourseId)
+TeachplanController.java(getTeachplanByCourseId)
+TeachplanController.java(getTeachplanCountByMap)
+TeachplanController.java(insertTeachplan)
+TeachplanController.java(updateTeachplan)
+TeachplanController.java(delTeachplanByCourseId)
 
+TeachplanMediaServiceImpl.java(getTeachplanMediaListByMap)
+TeachplanMediaServiceImpl.java(getTeachplanMediaCountByMap)
+TeachplanMediaServiceImpl.java(insertTeachplanMedia)
+TeachplanMediaServiceImpl.java(updateTeachplanMedia)
+TeachplanMediaServiceImpl.java(delTeachplanMediaById)
+TeachplanMediaController.java(getTeachplanMediaListByMap)
+TeachplanMediaController.java(getTeachplanMediaCountByMap)
+TeachplanMediaController.java(insertTeachplanMedia)
+TeachplanMediaController.java(updateTeachplanMedia)
+TeachplanMediaController.java(delTeachplanMediaById)
 
+XcCommentServiceImpl.java(getXcCommentById)
+XcCommentServiceImpl.java(delXcCommentById)
+XcCommentController.java(getXcCommentById)
+XcCommentController.java(delXcCommentById)
 
-
-
-
+升级项目版本
 
 
 

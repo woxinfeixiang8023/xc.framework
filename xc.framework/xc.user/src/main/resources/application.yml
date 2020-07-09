@@ -4,7 +4,7 @@ spring:
   application:
     name: userServer
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xc_user
     username: root
     password: root
@@ -12,6 +12,8 @@ spring:
     host: 127.0.0.1
     port: 6379
     password: ok
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     service-url:
@@ -20,5 +22,3 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     auto-mapping-behavior: FULL
-myes:
-  host: 127.0.0.1:9200

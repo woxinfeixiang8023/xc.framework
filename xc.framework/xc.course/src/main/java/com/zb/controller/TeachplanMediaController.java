@@ -23,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "媒体资源查询的接口", tags = {"查询媒体资源接口"})
+@RequestMapping("/api/course")
 public class TeachplanMediaController {
 
     @Autowired

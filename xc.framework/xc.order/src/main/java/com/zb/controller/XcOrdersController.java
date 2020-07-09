@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version V1.0
  */
 @RestController
-@CrossOrigin
+@RequestMapping("/api/order")
 public class XcOrdersController {
 
     @Autowired

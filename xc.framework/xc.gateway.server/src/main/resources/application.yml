@@ -3,18 +3,40 @@ server:
 spring:
   application:
     name: gateway-server
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+      - id: courseserver
+        uri: lb://courseserver
+        predicates:
+        - Path=/api/course/**
+      - id: userServer
+        uri: lb://userServer
+        predicates:
+        - Path=/api/user/**
+      - id: orderserver
+        uri: lb://orderserver
+        predicates:
+        - Path=/api/order/**
+      - id: recordserver
+        uri: lb://recordserver
+        predicates:
+        - Path=/api/record/**
+      - id: backstageServer
+        uri: lb://backstageServer
+        predicates:
+        - Path=/api/backstage/**
 eureka:
   client:
     service-url:
       defaultZone: http://root:ok@localhost:7001/eureka/
-zuul:
-  routes:
-    mycourseserver:
-      path: /course/**
-      serviceId: courseserver
-    myuserserver:
-      path: /user/**
-      serviceId: userServer
-    myorderserver:
-      path: /order/**
-      serviceId: orderserver
+

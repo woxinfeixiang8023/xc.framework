@@ -9,7 +9,7 @@ local courseCache = cache_ngx:get(courseCacheKey)	--查找缓存对象
     local http = require("resty.http")		--获取http模块
     local httpc = http.new()				--获取http对象
     --发起http请求到后台的java服务器
-    local resp, err = httpc:request_uri("http://127.0.0.1:8001/course/getTeachplanFormByCourseId/"..courseId)
+    local resp, err = httpc:request_uri("http://127.0.0.1:8001/api/course/getTeachplanFormByCourseId/"..courseId)
     --获取响应结果
     courseCache = resp.body
     --生成缓存的时间

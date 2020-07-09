@@ -4,7 +4,7 @@ spring:
   application:
     name: orderserver
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xc_order
     username: root
     password: root
@@ -18,6 +18,8 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     service-url:
@@ -26,5 +28,3 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     auto-mapping-behavior: FULL
-myes:
-  host: 127.0.0.1:9200

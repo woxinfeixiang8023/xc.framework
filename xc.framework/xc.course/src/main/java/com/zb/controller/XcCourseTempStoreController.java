@@ -3,6 +3,7 @@ package com.zb.controller;
 import com.zb.service.XcCourseTempStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * @Version V1.0
  */
 @RestController
+@RequestMapping("/api/course")
 public class XcCourseTempStoreController {
 
     @Autowired

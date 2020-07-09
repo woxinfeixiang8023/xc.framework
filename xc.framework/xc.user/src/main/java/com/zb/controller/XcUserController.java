@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Version v1.0
  */
 @RestController
-@CrossOrigin
+@RequestMapping("/api/user")
 public class XcUserController {
 
     @Autowired(required = false)

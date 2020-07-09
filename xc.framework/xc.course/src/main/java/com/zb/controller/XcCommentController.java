@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(value = "评论查询的接口", tags = {"查询课程评论信息接口"})
+@RequestMapping("/api/course")
 public class XcCommentController {
 
     @Autowired

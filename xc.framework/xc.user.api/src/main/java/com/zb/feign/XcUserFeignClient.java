@@ -1,7 +1,7 @@
 package com.zb.feign;
 
 import com.zb.pojo.XcUser;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,21 +16,21 @@ import java.util.Map;
 @FeignClient(value = "userServer")
 public interface XcUserFeignClient {
 
-    @PostMapping(value = "/getXcUserById/{id}")
+    @PostMapping(value = "/api/user/getXcUserById/{id}")
     public XcUser getXcUserById(@PathVariable("id") String id) throws Exception;
 
-    @PostMapping(value = "/getXcUserListByMap")
+    @PostMapping(value = "/api/user/getXcUserListByMap")
     public List<XcUser> getXcUserListByMap(@RequestParam Map<String, Object> param) throws Exception;
 
-    @PostMapping(value = "/insertXcUser")
+    @PostMapping(value = "/api/user/insertXcUser")
     public Integer insertXcUser(@RequestBody XcUser xcUser) throws Exception;
 
-    @PostMapping(value = "/updateXcUser")
+    @PostMapping(value = "/api/user/updateXcUser")
     public Integer updateXcUser(@RequestBody XcUser xcUser) throws Exception;
 
-    @PostMapping(value = "/deleteXcUserById/{id}")
+    @PostMapping(value = "/api/user/deleteXcUserById/{id}")
     public Integer deleteXcUserById(@PathVariable(value = "id") String id) throws Exception;
 
-    @PostMapping(value = "/getCurrentUser/{token}")
+    @PostMapping(value = "/api/user/getCurrentUser/{token}")
     public XcUser getCurrentUser(@PathVariable("token") String token);
 }

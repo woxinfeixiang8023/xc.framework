@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(value = "收藏（购物车）的接口", tags = {"查询收藏（购物车）操作接口"})
+@RequestMapping("/api/course")
 public class CoursePubCartController {
 
     @Autowired

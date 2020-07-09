@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version V1.0
  */
 @RestController
+@RequestMapping("/api/record")
 public class XcLearningCourseController {
 
     @Autowired

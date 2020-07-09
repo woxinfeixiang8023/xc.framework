@@ -3,7 +3,7 @@ package com.zb.feign;
 import com.zb.dto.Dto;
 import com.zb.form.GetXcCommentListByMapForm;
 import com.zb.pojo.XcComment;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient("courseserver")
 public interface XcCommentFeignClient {
 
-    @PostMapping(value = "/getXcCommentListByMap")
+    @PostMapping(value = "/api/course/getXcCommentListByMap")
     public Dto getXcCommentListByMap(@RequestBody GetXcCommentListByMapForm getXcCommentListByMapForm);
 
-    @PostMapping(value = "/insertXcComment")
+    @PostMapping(value = "/api/course/insertXcComment")
     public Dto insertXcComment(@RequestBody XcComment xcComment);
 
-    @GetMapping(value = "/getXcCommentById/{id}")
+    @GetMapping(value = "/api/course/getXcCommentById/{id}")
     public XcComment getXcCommentById(@PathVariable("id") Long id);
 
-    @PostMapping(value = "/updateXcComment")
+    @PostMapping(value = "/api/course/updateXcComment")
     public Integer updateXcComment(@RequestBody XcComment xcComment);
 
-    @DeleteMapping(value = "/delXcCommentById/{id}")
+    @DeleteMapping(value = "/api/course/delXcCommentById/{id}")
     public Integer delXcCommentById(@PathVariable("id") Long id);
 }

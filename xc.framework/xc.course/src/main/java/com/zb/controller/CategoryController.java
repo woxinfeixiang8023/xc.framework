@@ -24,6 +24,7 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "分类的接口", tags = {"查询分类操作接口"})
+@RequestMapping("/api/course")
 public class CategoryController {
 
     @Autowired
@@ -39,10 +40,10 @@ public class CategoryController {
         return DtoUtil.returnSuccess("ok", categoryList);
     }
 
-    @GetMapping(value = "/getcontentList/{id}")
+    @GetMapping(value = "/getContentList/{id}")
     @ApiOperation(value = "查询轮播图地址", notes = "根据category_id查询轮播图地址")
     @ApiImplicitParam(name = "id", value = "内容类目ID", required = true, dataType = "int", paramType = "path")
-    public Dto getcontentList(@PathVariable("id") Integer id) {
+    public Dto getContentList(@PathVariable("id") Integer id) {
         //程序内部发起的http请求， 调用ngix的执行读的操作的接口
         String myurl = "http://localhost:9000/readcontent?id=" + id;
         String result = restTemplate.getForObject(myurl, String.class);

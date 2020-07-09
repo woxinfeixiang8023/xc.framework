@@ -473,5 +473,4 @@ public class CoursePubServiceImpl implements CoursePubService {
         return null;
     }
 
-
 }

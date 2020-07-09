@@ -2,7 +2,7 @@ package com.zb.feign;
 
 import com.zb.dto.Dto;
 import com.zb.pojo.TeachplanMedia;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,21 +16,21 @@ import java.util.Map;
  */
 @FeignClient("courseserver")
 public interface TeachplanMediaFeignClient {
-    @GetMapping(value = "/getTeachplanMediaById/{teachplanId}")
+    @GetMapping(value = "/api/course/getTeachplanMediaById/{teachplanId}")
     public Dto getTeachplanMediaById(@PathVariable("teachplanId") String teachplanId);
 
-    @PostMapping(value = "/getTeachplanMediaListByMap")
+    @PostMapping(value = "/api/course/getTeachplanMediaListByMap")
     public List<TeachplanMedia> getTeachplanMediaListByMap(@RequestParam Map<String, Object> param);
 
-    @PostMapping(value = "/getTeachplanMediaCountByMap")
+    @PostMapping(value = "/api/course/getTeachplanMediaCountByMap")
     public Integer getTeachplanMediaCountByMap(@RequestParam Map<String, Object> param);
 
-    @PostMapping(value = "/insertTeachplanMedia")
+    @PostMapping(value = "/api/course/insertTeachplanMedia")
     public Integer insertTeachplanMedia(@RequestBody TeachplanMedia teachplanMedia);
 
-    @PostMapping(value = "/updateTeachplanMedia")
+    @PostMapping(value = "/api/course/updateTeachplanMedia")
     public Integer updateTeachplanMedia(@RequestBody TeachplanMedia teachplanMedia);
 
-    @DeleteMapping(value = "/delTeachplanMediaById/{teachplanId}")
+    @DeleteMapping(value = "/api/course/delTeachplanMediaById/{teachplanId}")
     public TeachplanMedia delTeachplanMediaById(@PathVariable("teachplanId") String teachplanId);
 }

@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/upload")
-@CrossOrigin
+@RequestMapping("/api/backstage")
 public class UploadController {
     @Autowired
     private UploadService uploadService;

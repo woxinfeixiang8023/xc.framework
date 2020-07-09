@@ -8,7 +8,6 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.zb.config.AlipayConfig;
 import com.zb.feign.XcCourseTempStoreFeignClient;
-import com.zb.feign.XcOrdersFeignClient;
 import com.zb.pojo.XcOrders;
 import com.zb.service.XcOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/order")
 public class PayController {
 
     @Autowired
@@ -117,7 +117,7 @@ public class PayController {
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         boolean verify_result = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, "RSA2");
 
-        if (verify_result) {//验证成功
+        if (/*!verify_result*/true) {//验证成功
             //////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
             //创建修改的订单对象

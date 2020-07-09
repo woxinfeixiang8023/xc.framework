@@ -3,7 +3,7 @@ package com.zb.feign;
 import com.zb.dto.Dto;
 import com.zb.form.GetTeachplanListByMapForm;
 import com.zb.pojo.Teachplan;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,24 +17,24 @@ import java.util.Map;
 @FeignClient("courseserver")
 public interface TeachplanFeignClient {
 
-    @GetMapping(value = "/getTeachplanFormByCourseId/{courseId}")
+    @GetMapping(value = "/api/course/getTeachplanFormByCourseId/{courseId}")
     public Dto getTeachplanFormByCourseId(@PathVariable("courseId") String courseId);
 
-    @PostMapping(value = "/getTeachplanListByMap")
+    @PostMapping(value = "/api/course/getTeachplanListByMap")
     public Dto getTeachplanListByMap(@RequestBody GetTeachplanListByMapForm getTeachplanListByMapForm);
 
-    @GetMapping(value = "/getTeachplanByCourseId/{courseId}")
+    @GetMapping(value = "/api/course/getTeachplanByCourseId/{courseId}")
     public Teachplan getTeachplanByCourseId(@PathVariable("courseId") String courseId);
 
-    @PostMapping(value = "/getTeachplanCountByMap")
+    @PostMapping(value = "/api/course/getTeachplanCountByMap")
     public Integer getTeachplanCountByMap(@RequestParam Map<String, Object> param);
 
-    @PostMapping(value = "/insertTeachplan")
+    @PostMapping(value = "/api/course/insertTeachplan")
     public Integer insertTeachplan(@RequestBody Teachplan teachplan);
 
-    @PostMapping(value = "/updateTeachplan")
+    @PostMapping(value = "/api/course/updateTeachplan")
     public Integer updateTeachplan(@RequestBody Teachplan teachplan);
 
-    @DeleteMapping(value = "/delTeachplanByCourseId/{id}")
+    @DeleteMapping(value = "/api/course/delTeachplanByCourseId/{id}")
     public Integer delTeachplanByCourseId(@PathVariable("id") String id);
 }

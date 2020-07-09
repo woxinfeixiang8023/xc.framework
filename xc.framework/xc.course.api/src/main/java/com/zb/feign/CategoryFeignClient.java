@@ -4,7 +4,7 @@ import com.zb.dto.Dto;
 import com.zb.pojo.Category;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,21 +19,21 @@ import java.util.Map;
 @FeignClient("courseserver")
 public interface CategoryFeignClient {
 
-    @GetMapping(value = "/getCategoryById/{id}")
+    @GetMapping(value = "/api/course/getCategoryById/{id}")
     public Category getCategoryById(@PathVariable("id") String id);
 
-    @PostMapping(value = "/getCategoryListByMap")
+    @PostMapping(value = "/api/course/getCategoryListByMap")
     public List<Category> getCategoryListByMap(@RequestParam Map<String, Object> param);
 
-    @PostMapping(value = "/getCategoryCountByMap")
+    @PostMapping(value = "/api/course/getCategoryCountByMap")
     public Integer getCategoryCountByMap(@RequestParam Map<String, Object> param);
 
-    @PostMapping(value = "/insertCategory")
+    @PostMapping(value = "/api/course/insertCategory")
     public Integer insertCategory(@RequestBody Category category);
 
-    @PostMapping(value = "/updateCategory")
+    @PostMapping(value = "/api/course/updateCategory")
     public Integer updateCategory(@RequestBody Category category);
 
-    @DeleteMapping(value = "/delCategoryById/{id}")
+    @DeleteMapping(value = "/api/course/delCategoryById/{id}")
     public Integer delCategoryById(@PathVariable("id") String id);
 }

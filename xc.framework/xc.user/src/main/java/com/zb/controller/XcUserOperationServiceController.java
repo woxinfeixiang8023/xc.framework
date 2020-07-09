@@ -4,10 +4,7 @@ import com.zb.pojo.XcUser;
 import com.zb.service.XcUserOperationService;
 import com.zb.form.TakeRedis;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author YuanHaiZhao
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version v1.0
  */
 @RestController
-@CrossOrigin
+@RequestMapping("/api/user")
 public class XcUserOperationServiceController {
 
     @Autowired(required = false)

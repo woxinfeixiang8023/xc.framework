@@ -15,7 +15,7 @@ import java.util.Map;
  * @Version v1.0
  */
 @RestController
-@CrossOrigin
+@RequestMapping("/api/user")
 public class XcTeacherController {
 
     @Autowired(required = false)

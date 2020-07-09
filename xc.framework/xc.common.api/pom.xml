@@ -32,22 +32,7 @@
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
-            <version>3.6.0.ALL</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>6.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>6.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>top.javatool</groupId>
-            <artifactId>canal-client</artifactId>
-            <version>1.2.1-RELEASE</version>
+            <version>3.7.26.ALL</version>
         </dependency>
         <!--        SpringBoot整合Swagger2依赖-->
         <dependency>
